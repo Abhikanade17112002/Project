@@ -4,8 +4,10 @@ const jwt = require("jsonwebtoken");
 
 const handleUserSignUp = async (request, response) => {
   try {
-    const { firstName, lastName, email, phoneNumber, password, role } =
-      request.body;
+   
+    
+    const { firstName, lastName, email, phoneNumber, password, role } = request.body;
+    console.log({ firstName, lastName, email, phoneNumber, password, role },request.body );
     const file = request?.file;
     if (
       !firstName ||
@@ -16,7 +18,7 @@ const handleUserSignUp = async (request, response) => {
       !role
     ) {
      return  response.status(200).json({
-        message: "please fill all the fields",
+        message: "please fill all the fields okaaay",
         status: false,
       });
     }
@@ -84,9 +86,10 @@ const handleUserSignUp = async (request, response) => {
 const handleUserSignIn = async (request, response) => {
   try {
     const { email, password, role } = request.body;
-
+     console.log({ email, password, role });
+     
     if (!email || !password || !role) {
-      response.status(200).json({
+     return response.status(200).json({
         message: "please fill all the fields",
         status: false,
       });
@@ -94,7 +97,7 @@ const handleUserSignIn = async (request, response) => {
 
     const user = await UserModel.findOne({ email });
     if (!user) {
-      response.status(200).json({
+      return response.status(200).json({
         message: "incorrect email or password (user not found)",
         status: false,
       });
@@ -102,14 +105,14 @@ const handleUserSignIn = async (request, response) => {
 
     const validPassword = await bcryptjs.compare(password, user.password);
     if (!validPassword) {
-      response.status(200).json({
+     return  response.status(200).json({
         message: "incorrect email or password (user not found)",
         status: false,
       });
     }
 
     if (user.role !== role) {
-      response.status(200).json({
+     return response.status(200).json({
         message: "user account with assigned role not found",
         status: false,
       });
@@ -125,7 +128,7 @@ const handleUserSignIn = async (request, response) => {
       expiresIn: "1d",
     });
 
-    response
+   return response
       .status(200)
       .cookie("jwttoken", generatedToken, {
         maxAge: 1 * 24 * 60 * 60 * 1000,

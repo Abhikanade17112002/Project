@@ -21,7 +21,7 @@ const Navbar = () => {
         </h1>
       </div>
       <div className="gap-5 flex ">
-        <ul className="text-sm flex items-center gap-5 px-2">
+        <ul className="text-sm flex items-center gap-5 px-2   ">
           <li>Home</li>
           <li>Jobs</li>
           <li>Browse</li>
