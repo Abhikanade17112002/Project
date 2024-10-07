@@ -76,7 +76,7 @@ const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(handleUserSignInAction.fulfilled, (state, action) => {
-        console.log(action);
+        console.log(action,"hiii");
         
         state.loading = false;
         state.user =  action.payload.status ? action.payload.user : null ;
@@ -102,9 +102,9 @@ const userSlice = createSlice({
   },
 });
 
-export const getUserInfo = (state)=>state.user ;
-export const getIsLoading = (state)=>state.loading ;
-export const getIsAuthenticated = (state)=>state.isAuthenticated ;
+export const getUserInfo = (state)=>state.user.user ;
+export const getIsLoading = (state)=>state.user.state ;
+export const getIsAuthenticated = (state)=>state.user.isAuthenticated ;
 
 export default userSlice.reducer;
 export const {} = userSlice.actions ;
