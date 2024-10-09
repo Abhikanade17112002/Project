@@ -7,16 +7,20 @@ import React, { useState } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button"
 import { LogOut, User2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { getIsAuthenticated, getUserInfo } from "@/store/userSlice/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getIsAuthenticated, getUserInfo, handleUserSignOutAction } from "@/store/userSlice/userSlice" ;
+import { toast } from "sonner";
+
 
 const Navbar = () => {
    const user =  useSelector(getUserInfo);
    const isAuthenticated = useSelector(getIsAuthenticated);
+   const dispatch = useDispatch();
+   const navigate = useNavigate() ;
 
    
-   console.log(user);
+
    
   return (
     <div className="bg-white w-full py-2 px-12 flex justify-between ">
@@ -44,14 +48,14 @@ const Navbar = () => {
             ):( <Popover>
                 <PopoverTrigger asChild>
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                    <AvatarImage src={ user?.profile?.profilePhoto|| "https://github.com/shadcn.png"} alt="@shadcn" />
                   </Avatar>
                 </PopoverTrigger>
                 <PopoverContent className="bg-white p-4 rounded-lg shadow-md w-70 mr-5">
                   <div className="flex space-x-4 items-center">
                     <Avatar>
                       <AvatarImage
-                        src="https://github.com/shadcn.png"
+                        src={ user?.profile?.profilePhoto|| "https://github.com/shadcn.png"}
                         alt="@shadcn"
                       />
                     </Avatar>
@@ -67,7 +71,25 @@ const Navbar = () => {
                       </div>
                       <div className="flex gap-2">
                       <LogOut/>
-                      <Button variant="link">Log Out</Button>
+                      <Button  onClick={()=>{dispatch(handleUserSignOutAction()).then((response)=>{
+                        try {
+                          if( response.payload.status)
+                          {
+                               toast.success(response.payload.message) ;
+                               navigate("/") ;
+                          }
+                          else
+                          {
+                            toast.success(response.payload.message) ;
+                          }
+                        } catch (error) {
+                          
+                        }
+                      })
+                        console.log("pressed");
+                        
+
+                      }}  variant="link">Log Out</Button>
                       </div>
                   </div>
                 </PopoverContent>

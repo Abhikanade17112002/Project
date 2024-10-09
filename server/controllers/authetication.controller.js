@@ -1,14 +1,21 @@
 const UserModel = require("../models/user.model");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("../utiils/cloudinary");
+const deleteServerSideFiles = require("../utiils/deleteServerSideFiles");
 
 const handleUserSignUp = async (request, response) => {
   try {
-   
+    const { firstName, lastName, email, phoneNumber, password, role } =
+      request.body;
+    console.log(
+      { firstName, lastName, email, phoneNumber, password, role },
+      request.body
+    );
+    const profilePicPath = request.file.path ;
+    const profilePicUrl = await cloudinary.uploader.upload(profilePicPath);
+  
     
-    const { firstName, lastName, email, phoneNumber, password, role } = request.body;
-    console.log({ firstName, lastName, email, phoneNumber, password, role },request.body );
-    const file = request?.file;
     if (
       !firstName ||
       !lastName ||
@@ -17,7 +24,7 @@ const handleUserSignUp = async (request, response) => {
       !password ||
       !role
     ) {
-     return  response.status(200).json({
+      return response.status(200).json({
         message: "please fill all the fields okaaay",
         status: false,
       });
@@ -26,7 +33,7 @@ const handleUserSignUp = async (request, response) => {
     const checkExistingUser = await UserModel.findOne({ email });
 
     if (checkExistingUser) {
-     return  response.status(200).json({
+      return response.status(200).json({
         message: "user already exists !",
         status: false,
       });
@@ -41,8 +48,10 @@ const handleUserSignUp = async (request, response) => {
       phoneNumber,
       password: hashedPassword,
       role,
+      "profile.profilePhoto": profilePicUrl.secure_url,
     });
-
+    
+    deleteServerSideFiles(profilePicPath) ;
     // sign JWT
     const tokenData = {
       userId: newUser._id,
@@ -51,29 +60,31 @@ const handleUserSignUp = async (request, response) => {
     };
     const signedToken = await jwt.sign(tokenData, process.env.JTWSECRETE, {
       expiresIn: "1d",
-    })
-     
+    });
 
-    if( !signedToken )
-    {
+    if (!signedToken) {
       return response.status(500).json({
         message: "Error generating token",
         status: false,
-    })}
-    //  send success response
-    // JTWSECRETE="PASS@123"
+      });
+    }
 
-    response.status(200).cookie("jwttoken", signedToken, {
-      maxAge: 1 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: "strict",
-      secure: true,
-    }).json({
-      message: "user created successfully",
-      status: true,
-      token:signedToken,
-      user: newUser,
-    });
+
+    response
+      .status(200)
+      .cookie("jwttoken", signedToken, {
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: "strict",
+        secure: true,
+        path: "/",
+      })
+      .json({
+        message: "user created successfully",
+        status: true,
+        token: signedToken,
+        user: newUser,
+      });
   } catch (error) {
     console.log(error);
     response.status(200).json({
@@ -86,10 +97,10 @@ const handleUserSignUp = async (request, response) => {
 const handleUserSignIn = async (request, response) => {
   try {
     const { email, password, role } = request.body;
-     console.log({ email, password, role });
-     
+    console.log({ email, password, role });
+
     if (!email || !password || !role) {
-     return response.status(200).json({
+      return response.status(200).json({
         message: "please fill all the fields",
         status: false,
       });
@@ -105,14 +116,14 @@ const handleUserSignIn = async (request, response) => {
 
     const validPassword = await bcryptjs.compare(password, user.password);
     if (!validPassword) {
-     return  response.status(200).json({
+      return response.status(200).json({
         message: "incorrect email or password (user not found)",
         status: false,
       });
     }
 
     if (user.role !== role) {
-     return response.status(200).json({
+      return response.status(200).json({
         message: "user account with assigned role not found",
         status: false,
       });
@@ -128,13 +139,14 @@ const handleUserSignIn = async (request, response) => {
       expiresIn: "1d",
     });
 
-   return response
+    return response
       .status(200)
       .cookie("jwttoken", generatedToken, {
         maxAge: 1 * 24 * 60 * 60 * 1000,
         httpOnly: true,
         sameSite: "strict",
         secure: true,
+        path: "/",
       })
       .json({
         message: "login successfull",
@@ -150,32 +162,47 @@ const handleUserSignIn = async (request, response) => {
   }
 };
 
+const handleUserSignOut = async (request, response) => {
+  try {
+    console.log("hi");
 
-
-const handleUserSignOut = async ( request , response )=> {
-    try {
-        
-        console.log("hi");
-        
-        response.status(200).cookie("jwttoken","" ,{maxAge:0}).json({
-          message: "logout successfull",
-          status: true,
-        }) ;
-        
-    } catch (error) {
-        response.status(200).json({
-            message: "something went wrong in sign out ",
-            status: false,
-          });
-        
-    }
-}
-
+    return response
+      .status(200)
+      .clearCookie("jwttoken", {
+        path: "/",
+        httpOnly: true,
+        sameSite: "strict",
+        secure: true,
+      })
+      .json({
+        message: "logout successful",
+        status: true,
+      });
+  } catch (error) {
+    return response.status(200).json({
+      message: "something went wrong in sign out ",
+      status: false,
+    });
+  }
+};
 
 const handleUserProfileUpdate = async (request, response) => {
   try {
-    const { firstName, lastName, phoneNumber, bio, skills, email } = request.body;
-    
+    const { firstName, lastName, phoneNumber, bio, skills, email } =
+      request.body;
+    console.log(
+      request.files,
+      request.files.profilePic[0].path,
+      request.files.resume[0].path
+    );
+    const profilePath = request?.files?.profilePic[0]?.path;
+    const resumePath = request?.files?.resume[0]?.path;
+
+    let profileURL = await cloudinary.uploader.upload(profilePath);
+    let resumeURL = await cloudinary.uploader.upload(resumePath);
+    profileURL.secure_url = profileURL.secure_url.replace(".pdf", ".jpg");
+    resumeURL.secure_url = resumeURL.secure_url.replace(".pdf", ".jpg");
+
     // Check if all fields are provided
     if (!firstName || !lastName || !phoneNumber || !bio || !skills || !email) {
       return response.status(400).json({
@@ -184,10 +211,8 @@ const handleUserProfileUpdate = async (request, response) => {
       });
     }
 
-    const skillsArray = skills.split(",");
+    const skillsArray = skills?.split(",");
     const userId = request.userId;
-    console.log( userId );
-    
 
     // Find the user by ID
     let user = await UserModel.findById(userId);
@@ -198,26 +223,34 @@ const handleUserProfileUpdate = async (request, response) => {
       });
     }
 
+    const updateInfo = {};
+    if (firstName) updateInfo.firstName = firstName;
+    if (lastName) updateInfo.lastName = lastName;
+    if (phoneNumber) updateInfo.phoneNumber = phoneNumber;
+    updateInfo.profile = {};
+    if (bio) updateInfo.profile.bio = bio;
+
+    if (skillsArray.length > 0) updateInfo.profile.skills = skillsArray;
+    if (email) updateInfo.email = email;
+    if (profileURL) updateInfo.profile.profilePhoto = profileURL.secure_url;
+
+    if (resumeURL) updateInfo.profile.resume = resumeURL.secure_url;
+    
+    deleteServerSideFiles(resumePath) ;
+    deleteServerSideFiles(profilePath) ;
     // Update the user data using findByIdAndUpdate for cleaner updates
-    user = await UserModel.findByIdAndUpdate(
+    const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
-      {
-        firstName,
-        lastName,
-        phoneNumber,
-        bio,
-        "profile.skills": skillsArray,
-        "profile.email": email,
-      },
+      updateInfo,
       { new: true } // Return the updated user
     );
+
 
     return response.status(200).json({
       message: "User profile updated successfully",
       status: true,
-      user,
+      user: updatedUser,
     });
-
   } catch (error) {
     console.log("Error updating profile: ", error);
     return response.status(500).json({
@@ -227,14 +260,10 @@ const handleUserProfileUpdate = async (request, response) => {
   }
 };
 
-
-
-
-
-module.exports = { // export the functions to be used in other files  
-    handleUserSignUp,
-    handleUserSignIn ,
-    handleUserSignOut ,
-    handleUserProfileUpdate
-    } ;  
-
+module.exports = {
+  // export the functions to be used in other files
+  handleUserSignUp,
+  handleUserSignIn,
+  handleUserSignOut,
+  handleUserProfileUpdate,
+};

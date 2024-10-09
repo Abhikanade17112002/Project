@@ -16,7 +16,7 @@ const handlePostJob = async (request,response) => {
             title,
             description,
             requirements: requirements.split(","),
-            salary: Number(salary),
+            salary:salary,
             location,
             jobType,
             experienceLevel: experience,
@@ -55,7 +55,7 @@ const handleGetAllJobPosting = async (request,response) => {
         return response.status(200).json({
             message:"fetched jobs succesfully" ,
             jobs,
-            success: true
+            status: true
         })
     } catch (error) {
         console.log("something went wrong in fetching all job postings",error);
