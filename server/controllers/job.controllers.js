@@ -16,7 +16,7 @@ const handlePostJob = async (request,response) => {
             title,
             description,
             requirements: requirements.split(","),
-            salary: Number(salary),
+            salary:salary,
             location,
             jobType,
             experienceLevel: experience,
@@ -55,7 +55,7 @@ const handleGetAllJobPosting = async (request,response) => {
         return response.status(200).json({
             message:"fetched jobs succesfully" ,
             jobs,
-            success: true
+            status: true
         })
     } catch (error) {
         console.log("something went wrong in fetching all job postings",error);
@@ -63,10 +63,11 @@ const handleGetAllJobPosting = async (request,response) => {
 }
 // student
 const handleGetJobById = async (request, response) => {
+
     try {
         const jobId = request.params.jobId;
         const job = await jobModel.findById(jobId).populate({
-            path:"application",
+            path:"applications",
         
         });
         if (!job) {
@@ -75,6 +76,9 @@ const handleGetJobById = async (request, response) => {
                 success: false
             })
         };
+        console.log('====================================');
+        console.log(job,"job");
+        console.log('====================================');
         return response.status(200).json({ job, success: true });
     } catch (error) {
         console.log(error);

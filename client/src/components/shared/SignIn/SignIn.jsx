@@ -106,8 +106,8 @@ const SignIn = () => {
       label:"Student",
       value:"student"},
       {id:2,
-        label:"Recuiter",
-        value:"recuiter"},
+        label:"Recruiter",
+        value:"recruiter"},
     ]}
     
     />

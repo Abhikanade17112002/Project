@@ -28,7 +28,7 @@ const SignUp = () => {
       password: "",
       role: "",
       phoneNumber: "",
-      file: "",
+      profilePic: "",
     },
     mode: "all",
   });
@@ -39,7 +39,7 @@ const SignUp = () => {
   const handleUserSignUp = async (data) => {
     const formdata = new FormData();
     Object.keys(data).forEach((key) => {
-      if (key === "file") {
+      if (key === "profilePic") {
         formdata.append(key, data[key][0]);
       } else {
         formdata.append(key, data[key]);
@@ -168,14 +168,14 @@ const SignUp = () => {
           placeholder={"select user role"}
           dropDownOptions={[
             { id: 1, label: "Student", value: "student" },
-            { id: 2, label: "Recuiter", value: "recuiter" },
+            { id: 2, label: "Recruiter", value: "recruiter" },
           ]}
         />
         <CustomFileInput
           errors={errors}
-          name={"file"}
+          name={"profilePic"}
           label={"upload profile image"}
-          register={register("file", {
+          register={register("profilePic", {
             required: {
               value: true,
               message: "profile image is required",

@@ -5,9 +5,9 @@ const express = require("express") ;
 const router = express.Router();
 
 router.route("/post").post(Authenticated, handlePostJob);
-router.route("/").get(Authenticated, handleGetAllJobPosting);
+router.route("/").get(handleGetAllJobPosting);
 router.route("/admin").get(Authenticated, handleGetAllJobsByUser);
-router.route("/get/:jobId").get(Authenticated, handleGetJobById);
+router.route("/get/:jobId").get( handleGetJobById);
 
 module.exports = router ;
 

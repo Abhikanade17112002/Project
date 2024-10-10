@@ -1,48 +1,195 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import React from "react";
-import { useParams } from "react-router-dom";
+import { getUserInfo } from "@/store/userSlice/userSlice";
+import daysAgo from "@/utils/daysAgo";
+import axios from "axios";
 
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Loader from "../Loader/Loader";
 const JobDetails = () => {
-  const { id: jobId } = useParams();
+  const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [hasApllicantApplied, setHasApplicantApplied] = useState(null);
+  const userInfo = useSelector(getUserInfo);
   const applied = true;
-  const signleJob = {}
-  
-  return (
+  const fetchSingleJobById = async (jobId) => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `http://localhost:3000/api/job/get/${jobId}`,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      setJob(response.data.job);
+      return response.data.job;
+    } catch (error) {
+      console.log("Error While Fetching A Single Job By Id ", error);
+    } finally {
+     setLoading(false); 
+    }
+  };
+  const { id: jobId } = useParams();
+  const findApplication = (appicantId, applications = []) => {
+    console.log("====================================");
+    console.log(appicantId);
+    console.log("====================================");
+    if (applications.length === 0) {
+      return false;
+    } else {
+      const response = applications.find((applicant) => {
+        if (applicant.applicant === appicantId) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      return response;
+    }
+  };
+
+  const handleApplyToJob = async (userId , jobId ) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/api/application/apply/${jobId}`
+        , {
+              
+          },
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+              },
+              }
+      )
+
+      console.log('====================================');
+      console.log(response.data,"NEW");
+      console.log('====================================');
+
+      if( response.data.status )
+      {  
+        console.log('====================================');
+        console.log("After sucess ", job);
+        console.log('====================================');
+       fetchSingleJobById(job?._id).then((response)=>{
+        if (userInfo) {
+          setHasApplicantApplied(
+            findApplication(userInfo?._id, response.applications)
+          )
+        }
+       }) ;
+
+        
+
+
+      }
+      else{
+        alert("Application Failed");
+      }
+    } catch (error) {
+      console.log("Error While Applying To Job ", error);
+    }
+  };
+  useEffect(() => {
+    fetchSingleJobById(jobId).then((response) => {
+      console.log("====================================");
+      console.log(userInfo, response);
+      console.log("====================================");
+      if (userInfo) {
+        setHasApplicantApplied(
+          findApplication(userInfo?._id, response.applications)
+        );
+      }
+    });
+  }, [jobId]);
+
+  return loading ? (
+    <Loader/>
+  ) : (
     <div className="h-[100vh] overflow-y-auto max-w-7xl mx-auto py-2 my-4">
       <div className="flex justify-between px-4 my-4">
         <div className="">
-          <h1>Job Title</h1>
+          <h1>{job?.title} </h1>
+          <div className="text-[10px] font-bold underline text-muted-foreground ">
+            created {daysAgo(job?.createdAt)}
+          </div>
           <div className="flex items-center gap-2 mt-4">
             <Badge className={"text-blue-700 font-bold"} variant="ghost">
-              {" "}
-              {"position"}
+              {job?.position} Positions
             </Badge>
             <Badge className={"text-[#F83002] font-bold"} variant="ghost">
-              {"type"}
+              {job?.jobType}
             </Badge>
             <Badge className={"text-[#7209b7] font-bold"} variant="ghost">
-              {"salary"}LPA
+              {job?.salary} LPA
             </Badge>
           </div>
         </div>
         <div className=" flex justify-center items-center">
-          <Button  disabled={applied} className={`${ applied ? "bg-green-600 cursor-not-allowed" : "bg-black"} disable`} >{ applied ? "Applied 😀" : "Apply Now 🙂"}</Button>
+          <Button
+            onClick={() => {
+              handleApplyToJob(userInfo?._id,  job?._id);
+            }}
+            disabled={hasApllicantApplied}
+            className={`${
+              applied ? "bg-green-600 cursor-not-allowed" : "bg-black"
+            } disable`}
+          >
+            {hasApllicantApplied ? "Applied 😀" : "Apply Now 🙂"}
+          </Button>
         </div>
-        
       </div>
       <div className="flex flex-col text-sm">
-          <h1>Job Details</h1>
-          <div className='my-4'>
-                <h1 className='font-bold my-1'>Role: <span className='pl-4 font-normal text-gray-800'>{signleJob?.title || "Front End Developer"}</span></h1>
-                <h1 className='font-bold my-1'>Location: <span className='pl-4 font-normal text-gray-800'>{signleJob?.location} || "Pune"</span></h1>
-                <h1 className='font-bold my-1'>Description: <span className='pl-4 font-normal text-gray-800'>{signleJob?.description}|| Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos adipisci quam est nemo officiis veniam quos eaque nam, qui doloremque ducimus quod explicabo. Facilis laudantium nemo quibusdam repudiandae corporis quis!</span></h1>
-                <h1 className='font-bold my-1'>Experience: <span className='pl-4 font-normal text-gray-800'>{signleJob?.experience}|| 3 yrs</span></h1>
-                <h1 className='font-bold my-1'>Salary: <span className='pl-4 font-normal text-gray-800'>{signleJob?.salary}|| 12 LPA</span></h1>
-                <h1 className='font-bold my-1'>Total Applicants: <span className='pl-4 font-normal text-gray-800'>{signleJob?.applications?.length}|| 5</span></h1>
-                <h1 className='font-bold my-1'>Posted Date: <span className='pl-4 font-normal text-gray-800'>{signleJob?.createdAt?.split("T")[0]} || Ok</span></h1>
-            </div>
+        <h1 className="font-bold underline">Job Details</h1>
+        <div className="my-4">
+          <h1 className="font-bold my-1">
+            Role:{" "}
+            <span className="pl-4 font-normal text-gray-800">{job?.title}</span>
+          </h1>
+          <h1 className="font-bold my-1">
+            Location:{" "}
+            <span className="pl-4 font-normal text-gray-800">
+              {job?.location}{" "}
+            </span>
+          </h1>
+          <h1 className="font-bold my-1">
+            Description:{" "}
+            <span className="pl-4 font-normal text-gray-800">
+              {job?.description}
+            </span>
+          </h1>
+          <h1 className="font-bold my-1">
+            Experience:{" "}
+            <span className="pl-4 font-normal text-gray-800">
+              {job?.experienceLevel} Years
+            </span>
+          </h1>
+          <h1 className="font-bold my-1">
+            Salary:{" "}
+            <span className="pl-4 font-normal text-gray-800">
+              {job?.salary}
+            </span>
+          </h1>
+          <h1 className="font-bold my-1">
+            Total Applicants:{" "}
+            <span className="pl-4 font-normal text-gray-800">
+              {job?.applications?.length}
+            </span>
+          </h1>
+          <h1 className="font-bold my-1">
+            Posted Date:{" "}
+            <span className="pl-4 font-normal text-gray-800">
+              {job?.createdAt?.split("T")[0]}{" "}
+            </span>
+          </h1>
         </div>
+      </div>
     </div>
   );
 };

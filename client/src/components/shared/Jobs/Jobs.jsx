@@ -1,9 +1,12 @@
 import React from 'react'
 import JobsCard from './JobsCard'
 import Sidebar from '../Sidebar/Sidebar'
+import { useSelector } from 'react-redux'
+import { getAllJobs } from '@/store/jobSlice/jobSlice'
 
 const Jobs = () => {
-
+  const allJobs = useSelector(getAllJobs) ;
+  
     const filtersArray = [
         {
             id: 1,
@@ -32,18 +35,21 @@ const Jobs = () => {
         },
 
     ]
-    const randomJobs = [1,2,3,4,5,6,7,8,9,10,1,2,3,4,]
+    
   return (
     <div className='h-[100vh] flex  '>
       <div className="sidebar w-[25%] max-w-[250px]  overflow-y-auto my-4  py-4">
       <Sidebar   filtersarray={filtersArray}></Sidebar>
       </div>
-      <div className="jobscontainer flex-1 overflow-y-auto   px-4 py-4 grid grid-cols-3 gap-5 my-4">
+      <div className="jobscontainer flex-1 overflow-y-auto   px-4 py-4 grid grid-cols-3  gap-5 my-4">
       {
-        randomJobs.map((job, index) => (
-            <JobsCard key={index} />
-            ))
-            }
+       allJobs ? allJobs.map((job, index) => (
+        <div className="">
+          <JobsCard key={index} job={job}/>
+        </div>
+            
+            )) : <div>No Jobs Available</div>
+      }
       
       </div>
 
