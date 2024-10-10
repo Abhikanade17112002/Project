@@ -6,7 +6,7 @@ const Authenticated = async ( request , response , next ) =>{
        
         
         const incomingToken = request.cookies.jwttoken ;
-        console.log(incomingToken,"ICT");
+        console.log(incomingToken,request.cookies,"ICT");
         
         if(!incomingToken )
         {  console.log("ICT UNATHORISED");

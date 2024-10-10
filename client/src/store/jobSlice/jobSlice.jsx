@@ -19,16 +19,15 @@ export const getAllJobsAction = createAsyncThunk("/api/job/", async ( ) =>{
               },
             }
           );
-          console.log('====================================');
-          console.log("RESPONSE DATA",response);
-          console.log('====================================');
+
           return response.data ;
     } catch (error) {
-        console.log('====================================');
+  
         console.log("SOMETHING WENT WRONG IN FETCH ALL JOB POSTINGS ",error);
-        console.log('====================================');
+
     }
 })
+
 
 
 

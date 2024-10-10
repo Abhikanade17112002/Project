@@ -3,12 +3,12 @@ import LatestJobCards from './LatestJobsCards';
 import {  useSelector } from 'react-redux';
 import { getAllJobs } from '@/store/jobSlice/jobSlice';
 
-const randomJobs = [1, 2, 3, 4, 5, 6, 7, 8];
+
 
 const LatestJobs = () => {
     const allJobs = useSelector(getAllJobs) ;
     console.log('====================================');
-    console.log(allJobs);
+    console.log(allJobs,"ALL JOBS");
     console.log('====================================');
 
    
@@ -17,7 +17,7 @@ const LatestJobs = () => {
             <h1 className='text-4xl font-bold'><span className='text-[#6A38C2]'>Latest & Top </span> Job Openings</h1>
             <div className='grid grid-cols-3 gap-4 my-5'>
                 {
-                    randomJobs.length <= 0 ? <span>No Job Available</span> : randomJobs?.slice(0,6).map((job,index) => <LatestJobCards key={allJobs[0]?._id} job={allJobs[0]}/>)
+                  allJobs ?  allJobs?.slice(0,6).map((job,index) => <LatestJobCards key={job?._id} job={job}/>) : <div>No Jobs Available </div>
                 }
             </div>
         </div>

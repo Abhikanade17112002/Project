@@ -63,10 +63,11 @@ const handleGetAllJobPosting = async (request,response) => {
 }
 // student
 const handleGetJobById = async (request, response) => {
+
     try {
         const jobId = request.params.jobId;
         const job = await jobModel.findById(jobId).populate({
-            path:"application",
+            path:"applications",
         
         });
         if (!job) {
@@ -75,6 +76,9 @@ const handleGetJobById = async (request, response) => {
                 success: false
             })
         };
+        console.log('====================================');
+        console.log(job,"job");
+        console.log('====================================');
         return response.status(200).json({ job, success: true });
     } catch (error) {
         console.log(error);

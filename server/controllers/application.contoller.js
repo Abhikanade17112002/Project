@@ -9,7 +9,7 @@ const handleApplyToJob = async (req, res) => {
         if (!jobId) {
             return res.status(200).json({
                 message: "job id is required.",
-                success: false
+                status: false
             })
         };
         // check if the user has already applied for the job
@@ -18,7 +18,7 @@ const handleApplyToJob = async (req, res) => {
         if (existingApplication) {
             return res.status(200).json({
                 message: "you have already applied",
-                success: false
+                status: false
             });
         }
 
@@ -42,7 +42,7 @@ const handleApplyToJob = async (req, res) => {
         await job.save();
         return res.status(201).json({
             message:"job applied succesfully.",
-            success:true
+            status:true
         })
     } catch (error) {
         console.log("something went wrong while applying to a job ",error);
