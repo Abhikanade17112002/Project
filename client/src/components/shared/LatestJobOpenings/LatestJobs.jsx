@@ -7,9 +7,7 @@ import { getAllJobs } from '@/store/jobSlice/jobSlice';
 
 const LatestJobs = () => {
     const allJobs = useSelector(getAllJobs) ;
-    console.log('====================================');
-    console.log(allJobs,"ALL JOBS");
-    console.log('====================================');
+
 
    
     return (
