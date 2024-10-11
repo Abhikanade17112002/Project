@@ -2,21 +2,33 @@ const  mongoose = require("mongoose") ;
 
 
 const companySchema = new mongoose.Schema({
-    name:{
+    companyName:{
         type:String,
         required:true,
         unique:true
     },
+    industry:{
+        type:String,
+        enum:['it',"finance","pharmasuticals","energy"],
+    },
+    companyEmail:{
+        type:String,
+        unique:true
+    },
+    companyContact:{
+        type:String,
+        
+    },
     description:{
         type:String, 
     },
-    website:{
+    companyWebsite:{
         type:String 
     },
-    location:{
+    companyAddress:{
         type:String 
     },
-    logo:{
+    companyLogo:{
         type:String // URL to company logo
     },
     userId:{

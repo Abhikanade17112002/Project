@@ -5,8 +5,7 @@ const {
   handleUpdateCompanyDetails,
 } = require("../controllers/company.controllers");
 const Authenticated = require("../middlewares/authentication.middleware");
-
-
+const upload = require("../middlewares/multer");
 
 const router = require("express").Router() ;
 
@@ -15,7 +14,7 @@ const router = require("express").Router() ;
 
 router.post("/register", Authenticated ,handleRegisterCompany);
 router.get("/", Authenticated ,handleGetAllUserCreatedCompany);
-router.put("/update/:companyId", Authenticated ,handleUpdateCompanyDetails);
+router.post("/update/:companyId", Authenticated , upload.single("companyLogo"),handleUpdateCompanyDetails);
 router.get("/:companyId", Authenticated ,handleGetCompanyById);
 
 
