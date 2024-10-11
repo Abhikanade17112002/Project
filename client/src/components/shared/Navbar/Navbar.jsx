@@ -36,7 +36,7 @@ const Navbar = () => {
       <div className="gap-5 flex ">
         <ul className="text-sm flex items-center gap-5 px-2   ">
           <li> <Link to={"/"}>Home</Link></li>
-          <li><Link to={"/jobs"}>Jobs</Link></li>
+          <li><Link to={ user?.role === "student" ? "/jobs" : "/admin/jobs"}>Jobs</Link></li>
           <li><Link to={"/jobs/browse"}>Browse</Link></li>
         </ul>
         {

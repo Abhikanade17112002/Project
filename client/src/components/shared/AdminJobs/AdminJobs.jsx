@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import CompaniesTable from '../CompaniesTable/CompaniesTable'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import AdminJobsTable from '../AdminJobsTable/AdminJobsTable';
 
 
 
-function Companies() {
+function AdminJobs() {
    const navigate = useNavigate();
    const [ searchParam , setSearchParam ] = useState("") ;
 
@@ -15,7 +15,7 @@ function Companies() {
     return (
         <div className='min-h-[100vh]'>
             
-            <div className='max-w-6xl mx-auto my-10'>
+            <div className='max-w-7xl mx-auto my-10'>
                 <div className='flex items-center justify-between my-5'>
                     <Input
                     type="search"
@@ -25,12 +25,12 @@ function Companies() {
                         placeholder="Filter by name"
                         onChange={(e) => setSearchParam(e.target.value)}
                     />
-                    <Button onClick={() => navigate("/admin/company/register")}>New Company</Button>
+                    <Button onClick={() => navigate("/admin/post/job")}>Post New Job</Button>
                 </div>
-                <CompaniesTable   searchParam={searchParam}  setSearchParam={setSearchParam}/>
+                <AdminJobsTable   searchParam={searchParam}  setSearchParam={setSearchParam}/>
             </div>
         </div>
     )
 }
 
-export default Companies
+export default AdminJobs

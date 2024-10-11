@@ -18,7 +18,7 @@ const RegisterCompany = () => {
       const response = await axios.post(
         "http://localhost:3000/api/company/register",
         {
-          name: companyName,
+          companyName: companyName,
         },
         {
           withCredentials: true,

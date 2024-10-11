@@ -8,9 +8,7 @@ const Auth = ({children}) => {
     const location = useLocation() ;
     const userInfo = useSelector(getUserInfo) ;
     const pathName = location.pathname ;
-    console.log('====================================');
-    console.log(pathName,userInfo,"CURRENT PATH");
-    console.log('====================================');
+
 
     if (!userInfo &&   pathName !== "/"  && !pathName.includes("/auth/signin") &&  !pathName.includes("/auth/signup") )
     {

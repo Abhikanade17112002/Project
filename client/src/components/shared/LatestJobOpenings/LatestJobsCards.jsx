@@ -6,10 +6,15 @@ const LatestJobCards = ({job}) => {
     const navigate = useNavigate();
     return (
         <div onClick={()=> navigate(`jobs/${job._id}`)} className='p-5 rounded-md shadow-xl bg-white border border-gray-100 cursor-pointer'>
-            <div>
-                <h1 className='font-medium text-lg'>{job?.company?.name || "company name" }</h1>
-                <p className='text-sm text-gray-500'>India</p>
+            <div className='flex items-center py-4'>
+                
+                <div className="w-10 h-10">
+                <img src={job.company.companyLogo} alt="" />
+                </div>
+                <h1 className='font-medium text-lg'>{job?.company?.companyName || "company name" }</h1>
+                
             </div>
+            <p className='text-sm text-gray-500 px-1'>{job?.location}</p>
             <div>
                 <h1 className='font-bold text-lg my-2'>{job?.title || "job title"}</h1>
                 <p className='text-sm text-gray-600'>{job?.description || "job descriprtion"}</p>

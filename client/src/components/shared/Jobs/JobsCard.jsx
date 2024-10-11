@@ -24,7 +24,7 @@ const JobsCard = ({job}) => {
         <Button variant="outlined flex">
           <Avatar>
             <AvatarImage
-              src="https://imgs.search.brave.com/GSzrTpE_O6AKEHbSx2ikXd1CnxDIUcCBBXkTKub7Pbo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzA4LzIzLzQx/LzM2MF9GXzEwODIz/NDE2N18xd08yMHRa/NXlVMWF1Y1BMZ3Vn/RG5qZ0w3aWJOY1hr/VS5qcGc"
+              src={job.company.companyLogo}
               className="bg-white"
             />
           </Avatar>

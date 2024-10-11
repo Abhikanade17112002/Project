@@ -26,6 +26,8 @@ import Companies from "./components/shared/Companies/Companies";
 import AdminLayout from "./components/shared/Layout/AdminLayout";
 import RegisterCompany from "./components/shared/RegisterCompany/RegisterCompany";
 import CompanyDetails from "./components/shared/CompanyDetails/CompanyDetails";
+import AdminJobs from "./components/shared/AdminJobs/AdminJobs";
+import PostJob from "./components/shared/PostJob/PostJob";
 
 const router = createBrowserRouter([
   {
@@ -104,6 +106,13 @@ const router = createBrowserRouter([
       {
         path: "company/:companyId",
         element: < CompanyDetails ></CompanyDetails>
+      },
+      {
+        path: "jobs",
+        element: <AdminJobs></AdminJobs>,
+      },{
+        path:"post/job",
+        element:<PostJob></PostJob>
       }
     ],
   },

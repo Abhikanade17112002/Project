@@ -7,9 +7,7 @@ const User = ({children}) => {
     const location = useLocation() ;
     const userInfo = useSelector(getUserInfo) ;
     const pathName = location.pathname ;
-    console.log('====================================');
-    console.log(pathName,userInfo,"CURRENT PATH USER CHECK");
-    console.log('====================================');
+
 
     if( userInfo && userInfo.role === "student" && pathName.includes("/admin"))
     {

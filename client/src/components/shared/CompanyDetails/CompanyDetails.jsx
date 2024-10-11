@@ -26,7 +26,7 @@ const CompanyDetails = () => {
       companyContact: "",
       companyAddress: "",
       companyLogo: "",
-      compantWebsite: "",
+      companyWebsite: "",
       industry: "",
       description: "",
     },
