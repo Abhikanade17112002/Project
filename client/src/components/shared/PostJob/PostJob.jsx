@@ -45,7 +45,7 @@ const PostJob = () => {
       setSubmitting(true);
 
       const response = await axios.post(
-        `http://localhost:3000/api/job/post`,
+        `https://careercruise-4kbt.onrender.com/api/job/post`,
         data,
         {
           headers: {

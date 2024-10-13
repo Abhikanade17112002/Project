@@ -20,7 +20,7 @@ const UserAppliedTable = () => {
   const handleFetchAllUserApplications = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/application/get",
+        "https://careercruise-4kbt.onrender.com/api/application/get",
         {
           withCredentials: true,
           headers: {

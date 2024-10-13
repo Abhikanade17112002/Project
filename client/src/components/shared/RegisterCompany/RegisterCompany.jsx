@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import axios from "axios";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -14,7 +13,7 @@ const RegisterCompany = () => {
   const handleRegisterCompany = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/company/register",
+        "https://careercruise-4kbt.onrender.com/api/company/register",
         {
           companyName: companyName,
         },

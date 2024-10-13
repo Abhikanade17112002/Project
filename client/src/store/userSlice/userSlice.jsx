@@ -11,7 +11,7 @@ export const handleUserSignUpAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signup",
+        "https://careercruise-4kbt.onrender.com/api/auth/signup",
         FormData,
         {
           headers: {
@@ -32,7 +32,7 @@ export const handleUserSignInAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/signin",
+        "https://careercruise-4kbt.onrender.com/api/auth/signin",
         FormData,
         {
           withCredentials: true,
@@ -53,7 +53,7 @@ export const handleUserSignOutAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/auth/signout",
+        "https://careercruise-4kbt.onrender.com/api/auth/signout",
         {
           withCredentials: true,
           headers: {
@@ -74,7 +74,7 @@ export const handleUserUpdateProfileAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/profile/update",
+        "https://careercruise-4kbt.onrender.com/api/auth/profile/update",
         FormData,
         {
           withCredentials: true,

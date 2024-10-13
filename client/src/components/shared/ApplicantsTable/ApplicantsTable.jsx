@@ -31,7 +31,7 @@ const ApplicantsTable = ({ searchParam }) => {
   const handleJobApplicants = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/application/job/${jobId}`,
+        `https://careercruise-4kbt.onrender.com/api/application/job/${jobId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const ApplicantsTable = ({ searchParam }) => {
   const handleUpdateAplicationsStatus = async (status, applicationId) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/application/status/${applicationId}/update`,
+        `https://careercruise-4kbt.onrender.com/api/application/status/${applicationId}/update`,
         { status },
         {
           headers: {
