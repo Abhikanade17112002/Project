@@ -6,10 +6,10 @@ const Authenticated = async ( request , response , next ) =>{
        
         
         const incomingToken = request.cookies.jwttoken ;
-        console.log(incomingToken,request.cookies,"ICT");
+       
         
         if(!incomingToken )
-        {  console.log("ICT UNATHORISED");
+        {  
            return  response.status(200).json({
                 message : "Unauthorized User" ,
                 status:false 

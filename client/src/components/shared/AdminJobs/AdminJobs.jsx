@@ -13,19 +13,19 @@ function AdminJobs() {
 
 
     return (
-        <div className='min-h-[100vh]'>
+        <div className='min-h-[100vh] px-4'>
             
             <div className='max-w-7xl mx-auto my-10'>
                 <div className='flex items-center justify-between my-5'>
                     <Input
                     type="search"
                     value={searchParam}
-
-                        className="w-fit"
+                 
+                        className="w-fit text-[8px] sm:text-sm"
                         placeholder="Filter by name"
                         onChange={(e) => setSearchParam(e.target.value)}
                     />
-                    <Button onClick={() => navigate("/admin/post/job")}>Post New Job</Button>
+                    <Button className="w-fit text-[8px] sm:text-sm"  onClick={() => navigate("/admin/post/job")}>Post New Job</Button>
                 </div>
                 <AdminJobsTable   searchParam={searchParam}  setSearchParam={setSearchParam}/>
             </div>

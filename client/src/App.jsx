@@ -28,6 +28,7 @@ import RegisterCompany from "./components/shared/RegisterCompany/RegisterCompany
 import CompanyDetails from "./components/shared/CompanyDetails/CompanyDetails";
 import AdminJobs from "./components/shared/AdminJobs/AdminJobs";
 import PostJob from "./components/shared/PostJob/PostJob";
+import Applicants from "./components/shared/Applicants/Applicants";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,10 @@ const router = createBrowserRouter([
         element: (
           <div className="w-full">
             <HeroSection></HeroSection>
+            <div className="px-20  lg:max-w-[60%] mx-auto">
             <CategoryCarousel></CategoryCarousel>
+            </div>
+            
             <LatestJobs></LatestJobs>
           </div>
         ),
@@ -72,7 +76,7 @@ const router = createBrowserRouter([
         element:  <Jobs></Jobs> ,
       },
       {
-        path: "browse",
+        path: "browse/:query",
         element: <BrowseJobs></BrowseJobs>,
       },
       {
@@ -113,6 +117,10 @@ const router = createBrowserRouter([
       },{
         path:"post/job",
         element:<PostJob></PostJob>
+      },
+      {
+        path:"job/:jobId/applications",
+        element:<Applicants></Applicants>
       }
     ],
   },

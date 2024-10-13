@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 const JobsCard = ({job}) => {
   return (
-    <Link to={`${job._id}`}>
+    <Link to={`/jobs/${job._id}`}>
     <div className="min-h-[300px]  w-full hover:shadow-gray-600 border border-gray-100 shadow-lg px-3 py-6 shadow-gray-400 rounded-lg  text-sm flex flex-col justify-evenly">
       <div className="flex justify-between">
         <h6>2 days ago ..</h6>

@@ -76,8 +76,8 @@ const CompanyDetails = () => {
   return submitting ? (
     <Loader></Loader>
   ) : (
-    <div className="h-[100vh] py-4 overflow-y-auto my-5">
-      <h1 className="text-4xl font-bold text-center"> Fill Company Details </h1>
+    <div className="h-[100vh] py-4 overflow-y-auto my-5 ">
+      <h1 className="md:text-4xl  font-bold text-center"> Fill Company Details </h1>
       <div className="formContainer max-w-3xl mx-auto border py-4 px-6  rounded-lg my-4">
         <form
           action=""

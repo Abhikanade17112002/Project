@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import JobsCard from './JobsCard'
 import Sidebar from '../Sidebar/Sidebar'
 import { useSelector } from 'react-redux'
@@ -6,7 +6,7 @@ import { getAllJobs } from '@/store/jobSlice/jobSlice'
 
 const Jobs = () => {
   const allJobs = useSelector(getAllJobs) ;
-  
+    const [ query , setQuery ] = useState("") ;
     const filtersArray = [
         {
             id: 1,
@@ -16,12 +16,7 @@ const Jobs = () => {
         {
             id: 2,
             label:"Industry",
-            value:["Frontend Developer" ,"Bacend Developer","Fullstack Developer"]
-        },
-        {
-            id: 3,
-            label:"Experience",
-            value:["0-3 years" ,"3-6 years","6-10 years"]
+            value:["FrontEnd Developer" ,"BackEnd Developer","FullStack Developer"]
         },
         {
             id: 4,
@@ -38,12 +33,12 @@ const Jobs = () => {
     
   return (
     <div className='h-[100vh] flex  '>
-      <div className="sidebar w-[25%] max-w-[250px]  overflow-y-auto my-4  py-4">
-      <Sidebar   filtersarray={filtersArray}></Sidebar>
+      <div className="sidebar w-[25%] max-w-[250px]  overflow-y-auto my-4  py-4 hidden sm:block">
+      <Sidebar   filtersarray={filtersArray}   query={query}  setQuery={setQuery} ></Sidebar>
       </div>
-      <div className="jobscontainer flex-1 overflow-y-auto   px-4 py-4 grid grid-cols-3  gap-5 my-4">
+      <div className="jobscontainer flex-1 overflow-y-auto   px-4 py-4 grid md:grid-cols-3  gap-5 my-4">
       {
-       allJobs ? allJobs.map((job, index) => (
+       allJobs ? allJobs.filter((job)=>(job.title.toLowerCase().includes(query.toLowerCase()) ||job.location.toLowerCase().includes(query.toLowerCase()) || job.jobType.toLowerCase().includes(query.toLowerCase()))).map((job, index) => (
         <div className="">
           <JobsCard key={index} job={job}/>
         </div>

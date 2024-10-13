@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
    
-    <footer class="bg-[#0B0133] text-white py-8 text-sm">
+    <footer class="bg-[#0B0133] text-white py-8 md:text-sm text-[10px]">
       <div class="container mx-auto px-4 md:px-8">
-        <div class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-5 space-y-6 md:space-y-0 w-full">
     
-          <div class="text-center md:text-left">
-            <div class="flex justify-center md:justify-start items-center space-x-2 text-3xl font-bold">
+          <div class="text-center md:text-left w-full " >
+            <div class="flex justify-center md:justify-start items-center space-x-2 md:text-3xl text-xl font-bold">
               <span>J</span>
               <span>O</span>
               <span>B</span>

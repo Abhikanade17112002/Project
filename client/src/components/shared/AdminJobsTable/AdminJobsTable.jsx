@@ -14,7 +14,7 @@ import {
   getAllCompanies,
 } from "@/store/companySlice/companySlice";
 import { toast, Toaster } from "sonner";
-import { Delete, Edit2, MoreHorizontal, X } from "lucide-react";
+import { Delete, Edit2, Eye, MoreHorizontal, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -76,7 +76,7 @@ const AdminJobsTable = ({ setSearchParam, searchParam }) => {
 
   return (
     <div className=" mx-auto ">
-      <Table variant="outline" className=" table ">
+      <Table variant="outline" className=" table text-[10px] sm:text-sm">
         <TableCaption>A list of your recent posted Jobs</TableCaption>
         <TableHeader>
           <TableRow>
@@ -123,12 +123,23 @@ const AdminJobsTable = ({ setSearchParam, searchParam }) => {
                     <PopoverContent className="w-15 h-15">
                       <div
                         onClick={() =>
-                          navigate(`/admin/company/${company._id}`)
+                          navigate(`/admin/company/${job?.company._id}`)
                         }
                         className="flex items-center gap-2 cursor-pointer"
                       >
                         <Edit2 className="w-4" />
                         <span className="text-sm">Edit</span>
+                        
+                      </div>
+                      <div
+                        onClick={() =>
+                          navigate(`/admin/job/${job?._id}/applications`)
+                        }
+                        className="flex items-center gap-2 cursor-pointer my-2"
+                      >
+                        <Eye className="w-4" />
+                        <span className="text-sm">Applications</span>
+                        
                       </div>
                     </PopoverContent>
                   </Popover>

@@ -43,7 +43,7 @@ const CompaniesTable = ({setSearchParam,searchParam}) => {
     
     return (
         <div className="max-w-7xl mx-auto">
-            <Table variant="outline" className="table">
+            <Table variant="outline" className="table text-[10px]">
                 <TableCaption>A list of your recent registered companies</TableCaption>
                 <TableHeader>
                     <TableRow>

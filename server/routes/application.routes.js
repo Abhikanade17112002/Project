@@ -11,7 +11,7 @@ const Authenticated = require("../middlewares/authentication.middleware");
 
 router.get("/get",Authenticated,handleGetAppliedJobsByUser);
 
-router.get("/",Authenticated,handleGetAllAppliedApplicants);
+// router.get("/",Authenticated,handleGetAllAppliedApplicants);
 router.get("/job/:jobId",Authenticated,handleGetAllAppliedApplicants);
 router.post("/apply/:jobId",Authenticated,handleApplyToJob) ;
 router.post("/status/:applicationId/update",Authenticated,handleUpdateApplicationStatus);

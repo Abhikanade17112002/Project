@@ -1,28 +1,17 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@radix-ui/react-label";
-import { Radio } from "lucide-react";
+
 import { useState } from "react";
 
-const fitlerData = [
-  {
-    fitlerType: "Location",
-    array: ["Delhi NCR", "Bangalore", "Hyderabad", "Pune", "Mumbai"],
-  },
-  {
-    fitlerType: "Industry",
-    array: ["Frontend Developer", "Backend Developer", "FullStack Developer"],
-  },
-  {
-    fitlerType: "Salary",
-    array: ["0-40k", "42-1lakh", "1lakh to 5lakh"],
-  },
-];
 
-const FilterCard = ({ filtersarray }) => {
+const FilterCard = ({ filtersarray ,query , setQuery}) => {
   const [selectedValue, setSelectedValue] = useState("");
-
+  console.log('====================================');
+  console.log(selectedValue);
+  console.log('====================================');
   const changeHandler = (value) => {
     setSelectedValue(value);
+    setQuery(value);
   };
 
   return (
