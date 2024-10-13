@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Search } from 'lucide-react'
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 

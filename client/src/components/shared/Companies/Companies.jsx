@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import CompaniesTable from '../CompaniesTable/CompaniesTable'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 

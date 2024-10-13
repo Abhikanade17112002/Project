@@ -37,9 +37,9 @@ const JobDetails = () => {
   };
   const { id: jobId } = useParams();
   const findApplication = (appicantId, applications = []) => {
-    console.log("====================================");
-    console.log(appicantId);
-    console.log("====================================");
+
+
+
     if (applications.length === 0) {
       return false;
     } else {
@@ -68,15 +68,14 @@ const JobDetails = () => {
               }
       )
 
-      console.log('====================================');
-      console.log(response.data,"NEW");
-      console.log('====================================');
+
+
 
       if( response.data.status )
       {  
-        console.log('====================================');
-        console.log("After sucess ", job);
-        console.log('====================================');
+
+   
+
        fetchSingleJobById(job?._id).then((response)=>{
         if (userInfo) {
           setHasApplicantApplied(
@@ -98,9 +97,9 @@ const JobDetails = () => {
   };
   useEffect(() => {
     fetchSingleJobById(jobId).then((response) => {
-      console.log("====================================");
+
       console.log(userInfo, response);
-      console.log("====================================");
+
       if (userInfo) {
         setHasApplicantApplied(
           findApplication(userInfo?._id, response.applications)

@@ -46,49 +46,43 @@ const ApplicantsTable = ({ searchParam }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-
       console.log("Something went wrong in fetching all user jobs", error);
-
     }
   };
-  const handleUpdateAplicationsStatus = async (status,applicationId) =>{
-
+  const handleUpdateAplicationsStatus = async (status, applicationId) => {
     try {
-        const response = await axios.post(`http://localhost:3000/api/application/status/${applicationId}/update`,{status},{
-            headers: {
-                "Content-Type": "application/json",
-                },
-                withCredentials: true,
-                
-        }) ;
-
-        if( response.data.status)
+      const response = await axios.post(
+        `http://localhost:3000/api/application/status/${applicationId}/update`,
+        { status },
         {
-           toast.success(response.data.message);
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
         }
-        else{
-            toast.error(response.data.message);
-        }
+      );
+
+      if (response.data.status) {
+        toast.success(response.data.message);
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
-        console.log('====================================');
-        console.log('Something Went Wong While Updating Application Status', error);
-        console.log('====================================');
+      console.log(
+        "Something Went Wong While Updating Application Status",
+        error
+      );
     }
-  }
+  };
 
   useEffect(() => {
     handleJobApplicants();
   }, []);
 
-
- 
-
- 
-
   return (
     <div className=" mx-auto ">
-      <Table className="text-[10px] sm:text-sm" >
-        <TableCaption >
+      <Table className="text-[10px] sm:text-sm">
+        <TableCaption>
           A list of your recent posted Jobs Applications
         </TableCaption>
         <TableHeader>
@@ -105,65 +99,101 @@ const ApplicantsTable = ({ searchParam }) => {
         {/*  */}
         <TableBody>
           {applicants
-          ?.filter((application)=>application?.applicant?.firstName?.toLowerCase()?.includes(searchParam?.toLowerCase()))
-          .map((application) => (
-            <tr className="  items-center">
-              <TableCell className="  flex justify-center">
-                <Avatar className="">
-                  <AvatarImage
-                    src={application?.applicant?.profile?.profilePhoto}
-                  />
-                </Avatar>
-              </TableCell>
-              <TableCell className="text-center ">
-                {application?.applicant?.firstName}
-              </TableCell>
-              <TableCell className="text-center ">
-                {application?.applicant?.profile?.skills}
-              </TableCell>
-              <TableCell className="text-center">
-                {application?.applicant?.profile?.bio}
-              </TableCell>
-              <TableCell className="text-center">
-                <a
-                  href={application?.applicant?.profile?.resume}
-                  className="text-blue-700 font-bold cursor-pointer"
-                  target="_blank"
-                  rel="noopener
+            ?.filter((application) =>
+              application?.applicant?.firstName
+                ?.toLowerCase()
+                ?.includes(searchParam?.toLowerCase())
+            )
+            .map((application) => (
+              <tr className="  items-center">
+                <TableCell className="  flex justify-center">
+                  <Avatar className="">
+                    <AvatarImage
+                      src={application?.applicant?.profile?.profilePhoto}
+                    />
+                  </Avatar>
+                </TableCell>
+                <TableCell className="text-center ">
+                  {application?.applicant?.firstName}
+                </TableCell>
+                <TableCell className="text-center ">
+                  {application?.applicant?.profile?.skills}
+                </TableCell>
+                <TableCell className="text-center">
+                  {application?.applicant?.profile?.bio}
+                </TableCell>
+                <TableCell className="text-center">
+                  <a
+                    href={application?.applicant?.profile?.resume}
+                    className="text-blue-700 font-bold cursor-pointer"
+                    target="_blank"
+                    rel="noopener
                     noreferrer"
-                >
-                  Link
-                </a>
-              </TableCell>
-              <TableCell className="text-center ">
-                {application?.applicant?.email}
-              </TableCell>
-              <TableCell className="text-center cursor-pointer flex-1 justify-center items-center h-full">
-                <DropdownMenu className="p-0 m-0 h-full">
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="text-[10px] sm:text-sm">Status</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-30">
-                    <DropdownMenuSeparator />
-                    <DropdownMenuRadioGroup
-                      value={position}
-                      onValueChange={setPosition}
-                    >
-                      <DropdownMenuRadioItem   className="text-[10px] sm:text-sm"   value="reject" onClick={()=>handleUpdateAplicationsStatus("rejected",application._id)} >
-                        Reject
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem  className="text-[10px] sm:text-sm" value="pending" onClick={()=>handleUpdateAplicationsStatus("pending",application._id)}>
-                        Pending
-                      </DropdownMenuRadioItem>
-                      <DropdownMenuRadioItem  className="text-[10px] sm:text-sm" value="accept" onClick={()=>handleUpdateAplicationsStatus("accepted",application._id)} >
-                        Accept
-                      </DropdownMenuRadioItem>
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </tr>
-          ))}
+                  >
+                    Link
+                  </a>
+                </TableCell>
+                <TableCell className="text-center ">
+                  {application?.applicant?.email}
+                </TableCell>
+                <TableCell className="text-center cursor-pointer flex-1 justify-center items-center h-full">
+                  <DropdownMenu className="p-0 m-0 h-full">
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="text-[10px] sm:text-sm"
+                      >
+                        Status
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-30">
+                      <DropdownMenuSeparator />
+                      <DropdownMenuRadioGroup
+                        value={position}
+                        onValueChange={setPosition}
+                      >
+                        <DropdownMenuRadioItem
+                          className="text-[10px] sm:text-sm"
+                          value="reject"
+                          onClick={() =>
+                            handleUpdateAplicationsStatus(
+                              "rejected",
+                              application._id
+                            )
+                          }
+                        >
+                          Reject
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem
+                          className="text-[10px] sm:text-sm"
+                          value="pending"
+                          onClick={() =>
+                            handleUpdateAplicationsStatus(
+                              "pending",
+                              application._id
+                            )
+                          }
+                        >
+                          Pending
+                        </DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem
+                          className="text-[10px] sm:text-sm"
+                          value="accept"
+                          onClick={() =>
+                            handleUpdateAplicationsStatus(
+                              "accepted",
+                              application._id
+                            )
+                          }
+                        >
+                          Accept
+                        </DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </tr>
+            ))}
         </TableBody>
       </Table>
     </div>

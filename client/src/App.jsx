@@ -1,14 +1,10 @@
-import { createBrowserRouter, RouterProvider, useLocation } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/shared/Layout/Layout";
 import SignUp from "./components/shared/SignUp/SignUp";
 import SignIn from "./components/shared/SignIn/SignIn";
 import AuthLayout from "./components/shared/Layout/AuthLayout";
-import {
-  getIsAuthenticated,
-  getIsLoading,
-  getUserInfo,
-} from "./store/userSlice/userSlice";
+import { getUserInfo } from "./store/userSlice/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import HeroSection from "./components/shared/HeroSection/HeroSection";
 import CategoryCarousel from "./components/shared/CategoryCarousel/CategoryCarousel";
@@ -18,7 +14,7 @@ import BrowseJobs from "./components/shared/BrowseJobs/BrowseJobs";
 import UserProfile from "./components/shared/UserProfile.jsx/UserProfile";
 import JobDetails from "./components/shared/JobDetails/JobDetails";
 import { useEffect } from "react";
-import { getAllJobs, getAllJobsAction } from "./store/jobSlice/jobSlice";
+import { getAllJobsAction } from "./store/jobSlice/jobSlice";
 import Auth from "./components/shared/ProtectedRoutes/Auth/Auth";
 import Admin from "./components/shared/ProtectedRoutes/Admin/Admin";
 import User from "./components/shared/ProtectedRoutes/User/User";
@@ -33,7 +29,14 @@ import Applicants from "./components/shared/Applicants/Applicants";
 const router = createBrowserRouter([
   {
     path: "/",
-    element:  <Auth>  <Admin><Layout /></Admin></Auth>,
+    element: (
+      <Auth>
+        {" "}
+        <Admin>
+          <Layout />
+        </Admin>
+      </Auth>
+    ),
     children: [
       {
         path: "/",
@@ -41,9 +44,9 @@ const router = createBrowserRouter([
           <div className="w-full">
             <HeroSection></HeroSection>
             <div className="px-20  lg:max-w-[60%] mx-auto">
-            <CategoryCarousel></CategoryCarousel>
+              <CategoryCarousel></CategoryCarousel>
             </div>
-            
+
             <LatestJobs></LatestJobs>
           </div>
         ),
@@ -53,9 +56,11 @@ const router = createBrowserRouter([
 
   {
     path: "/auth",
-    element:  <Auth>
-      <AuthLayout /> </Auth>
-    ,
+    element: (
+      <Auth>
+        <AuthLayout />{" "}
+      </Auth>
+    ),
     children: [
       {
         path: "signin",
@@ -69,11 +74,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/jobs",
-    element: <Auth>  <Admin><User><Layout></Layout></User></Admin> </Auth>,
+    element: (
+      <Auth>
+        {" "}
+        <Admin>
+          <User>
+            <Layout></Layout>
+          </User>
+        </Admin>{" "}
+      </Auth>
+    ),
     children: [
       {
         path: "",
-        element:  <Jobs></Jobs> ,
+        element: <Jobs></Jobs>,
       },
       {
         path: "browse/:query",
@@ -87,7 +101,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/user",
-    element: <Auth><Admin><User><Layout></Layout></User></Admin></Auth>,
+    element: (
+      <Auth>
+        <Admin>
+          <User>
+            <Layout></Layout>
+          </User>
+        </Admin>
+      </Auth>
+    ),
     children: [
       {
         path: "profile",
@@ -97,7 +119,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Auth><Admin><User><AdminLayout></AdminLayout></User></Admin></Auth>,
+    element: (
+      <Auth>
+        <Admin>
+          <User>
+            <AdminLayout></AdminLayout>
+          </User>
+        </Admin>
+      </Auth>
+    ),
     children: [
       {
         path: "companies",
@@ -105,38 +135,34 @@ const router = createBrowserRouter([
       },
       {
         path: "company/register",
-        element: < RegisterCompany ></RegisterCompany>
+        element: <RegisterCompany></RegisterCompany>,
       },
       {
         path: "company/:companyId",
-        element: < CompanyDetails ></CompanyDetails>
+        element: <CompanyDetails></CompanyDetails>,
       },
       {
         path: "jobs",
         element: <AdminJobs></AdminJobs>,
-      },{
-        path:"post/job",
-        element:<PostJob></PostJob>
       },
       {
-        path:"job/:jobId/applications",
-        element:<Applicants></Applicants>
-      }
+        path: "post/job",
+        element: <PostJob></PostJob>,
+      },
+      {
+        path: "job/:jobId/applications",
+        element: <Applicants></Applicants>,
+      },
     ],
   },
 ]);
 function App() {
-  const dispatch = useDispatch() ;
-  const isAuthenticated = useSelector(getIsAuthenticated);
-  const isLoading = useSelector(getIsLoading);
+  const dispatch = useDispatch();
   const userInfo = useSelector(getUserInfo);
-
-  
 
   useEffect(() => {
     dispatch(getAllJobsAction());
   }, [dispatch, userInfo]);
-
 
   return (
     <div className="w-full">

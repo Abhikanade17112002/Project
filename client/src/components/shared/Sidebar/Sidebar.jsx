@@ -1,14 +1,9 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@radix-ui/react-label";
-
 import { useState } from "react";
 
-
-const FilterCard = ({ filtersarray ,query , setQuery}) => {
+const FilterCard = ({ filtersarray, query, setQuery }) => {
   const [selectedValue, setSelectedValue] = useState("");
-  console.log('====================================');
-  console.log(selectedValue);
-  console.log('====================================');
   const changeHandler = (value) => {
     setSelectedValue(value);
     setQuery(value);

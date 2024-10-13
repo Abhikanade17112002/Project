@@ -3,7 +3,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import React, { useState } from "react";
+import React from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button"
 import { LogOut, User2 } from "lucide-react";
@@ -18,10 +18,6 @@ const Navbar = () => {
    const isAuthenticated = useSelector(getIsAuthenticated);
    const dispatch = useDispatch();
    const navigate = useNavigate() ;
-
-   
-
-   
   return (
     <div className="bg-white w-full py-2 px-2 lg:px-12 flex justify-between ">
       <div className="flex  justify-between items-center gap-5 px-2">

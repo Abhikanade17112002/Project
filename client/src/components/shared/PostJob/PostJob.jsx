@@ -1,31 +1,31 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link,  useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomInput from "../CustomInput/CustomInput";
-import CustomFileInput from "../CustomFileInput/CustomFileInput";
 import CustomDropDown from "../CustomDropDown/CustomDropDown";
 import { Button } from "@/components/ui/button";
 import Loader from "../Loader/Loader";
 import { toast } from "sonner";
 import { getAllCompanies } from "@/store/companySlice/companySlice";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
 const PostJob = () => {
-  const companies = useSelector(getAllCompanies) ;
-  const mappedCompanies = companies.map((company)=>({"id":company._id , "label":company.companyName , "value":company._id})) ;
-  console.log('====================================');
-  console.log(mappedCompanies,"mapped comp");
-  console.log('====================================');
+  const companies = useSelector(getAllCompanies);
+  const mappedCompanies = companies.map((company) => ({
+    id: company._id,
+    label: company.companyName,
+    value: company._id,
+  }));
+
   const [submitting, setSubmitting] = useState(false);
-  const navigate = useNavigate() ;
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
     setValue,
-  
   } = useForm({
     defaultValues: {
       jobTitle: "",
@@ -36,37 +36,31 @@ const PostJob = () => {
       jobType: "",
       experience: "",
       position: "",
-      companyId:""
+      companyId: "",
     },
     mode: "all",
   });
   const handleJobPosting = async (data) => {
-    console.log('====================================');
-    console.log(data,"job Data");
-    console.log('====================================');
-    
     try {
       setSubmitting(true);
-      
-      const response = await axios.post(`http://localhost:3000/api/job/post`,data,{
-         headers:{
-            "Content-Type": "application/json"
-         },
-         
+
+      const response = await axios.post(
+        `http://localhost:3000/api/job/post`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+
           withCredentials: true,
         }
       );
-      console.log("====================================");
-      console.log(response, "RESPONSE");
-      console.log("====================================");
-      if( response.data.status)
-      {
-         toast.success(response?.data?.message);
-         navigate("/admin/jobs");
-      }
-      else
-      {
-        toast.error(response?.data?.message) ;
+
+      if (response.data.status) {
+        toast.success(response?.data?.message);
+        navigate("/admin/jobs");
+      } else {
+        toast.error(response?.data?.message);
       }
     } catch (error) {
       console.error("Something went wrong while posting job", error);
@@ -74,8 +68,6 @@ const PostJob = () => {
       setSubmitting(false);
     }
   };
-
-
 
   return submitting ? (
     <Loader></Loader>
@@ -120,7 +112,6 @@ const PostJob = () => {
                 value: true,
                 message: "job description is required",
               },
-              
             })}
           />
           <CustomInput
@@ -162,8 +153,6 @@ const PostJob = () => {
               },
             })}
           />
-
-
 
           <CustomInput
             label="Job Type"

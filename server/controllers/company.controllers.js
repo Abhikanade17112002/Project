@@ -4,9 +4,6 @@ const deleteServerSideFiles = require("../utiils/deleteServerSideFiles");
 const handleRegisterCompany = async (request, response) => {
   try {
     const { companyName } = request.body;
-    console.log('====================================');
-    console.log(companyName,"companyName");
-    console.log('====================================');
     if (!companyName) {
       return response.status(200).json({
         message: "company name required !",
@@ -51,7 +48,7 @@ const handleRegisterCompany = async (request, response) => {
 
 const handleGetAllUserCreatedCompany = async (req, res) => {
   try {
-    const userId = req.userId; // logged in user id
+    const userId = req.userId; 
     const companies = await companyModel.find({ userId });
     if (!companies) {
       return res.status(200).json({
@@ -141,12 +138,13 @@ const handleUpdateCompanyDetails = async (request, response) => {
         status: false,
       });
     }
+    deleteServerSideFiles(companyLogoPath);
     return response.status(200).json({
       message: "company information updated.",
       status: true,
       company:updatedCompanyInfo
     });
-    deleteServerSideFiles(companyLogoPath);
+    
   } catch (error) {
     console.log(error);
   }

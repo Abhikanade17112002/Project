@@ -12,7 +12,7 @@ const handleApplyToJob = async (req, res) => {
                 status: false
             })
         };
-        // check if the user has already applied for the job
+        
         const existingApplication = await applicationModel.findOne({ job: jobId, applicant: userId });
 
         if (existingApplication) {
@@ -22,7 +22,7 @@ const handleApplyToJob = async (req, res) => {
             });
         }
 
-        // check if the jobs exists
+      
         const job = await jobModel.findById(jobId);
         if (!job) {
             return res.status(404).json({
@@ -78,9 +78,7 @@ const handleGetAppliedJobsByUser = async (req,res) => {
 const handleGetAllAppliedApplicants = async (req,res) => {
     try {
         const jobId = req.params.jobId;
-        console.log('====================================');
-        console.log(jobId);
-        console.log('====================================');
+
         const job = await jobModel.findById(jobId).populate({
             path:'applications',
             options:{sort:{createdAt:-1}},

@@ -76,9 +76,6 @@ const handleGetJobById = async (request, response) => {
                 success: false
             })
         };
-        console.log('====================================');
-        console.log(job,"job");
-        console.log('====================================');
         return response.status(200).json({ job, success: true });
     } catch (error) {
         console.log(error);
