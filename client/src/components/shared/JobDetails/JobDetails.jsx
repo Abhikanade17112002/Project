@@ -18,7 +18,7 @@ const JobDetails = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:3000/api/job/get/${jobId}`,
+        `https://careercruise-4kbt.onrender.com/api/job/get/${jobId}`,
         {
           withCredentials: true,
           headers: {
@@ -56,7 +56,7 @@ const JobDetails = () => {
 
   const handleApplyToJob = async (userId , jobId ) => {
     try {
-      const response = await axios.post(`http://localhost:3000/api/application/apply/${jobId}`
+      const response = await axios.post(`https://careercruise-4kbt.onrender.com/api/application/apply/${jobId}`
         , {
               
           },

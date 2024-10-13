@@ -17,7 +17,7 @@ connectToDatabase()
     
     // Middlewares
     app.use(cors({
-        origin : "http://localhost:5173",
+        origin : "https://careercruise-4kbt.onrender.com",
         credentials:true,
     }));
     app.use(express.json());
