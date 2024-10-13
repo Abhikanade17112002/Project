@@ -37,9 +37,9 @@ const JobDetails = () => {
   };
   const { id: jobId } = useParams();
   const findApplication = (appicantId, applications = []) => {
-    console.log("====================================");
-    console.log(appicantId);
-    console.log("====================================");
+
+
+
     if (applications.length === 0) {
       return false;
     } else {
@@ -68,15 +68,14 @@ const JobDetails = () => {
               }
       )
 
-      console.log('====================================');
-      console.log(response.data,"NEW");
-      console.log('====================================');
+
+
 
       if( response.data.status )
       {  
-        console.log('====================================');
-        console.log("After sucess ", job);
-        console.log('====================================');
+
+   
+
        fetchSingleJobById(job?._id).then((response)=>{
         if (userInfo) {
           setHasApplicantApplied(
@@ -98,9 +97,9 @@ const JobDetails = () => {
   };
   useEffect(() => {
     fetchSingleJobById(jobId).then((response) => {
-      console.log("====================================");
+
       console.log(userInfo, response);
-      console.log("====================================");
+
       if (userInfo) {
         setHasApplicantApplied(
           findApplication(userInfo?._id, response.applications)
@@ -112,21 +111,21 @@ const JobDetails = () => {
   return loading ? (
     <Loader/>
   ) : (
-    <div className="h-[100vh] overflow-y-auto max-w-7xl mx-auto py-2 my-4">
-      <div className="flex justify-between px-4 my-4">
-        <div className="">
-          <h1>{job?.title} </h1>
+    <div className="h-[100vh] overflow-y-auto max-w-7xl mx-auto py-2 my-4 px-4 ">
+      <div className="flex justify-between px-2 gap-2 my-4">
+        <div className=" gap-2">
+          <h1 className="text-sm font-bold md:text-3xl">{job?.title} </h1>
           <div className="text-[10px] font-bold underline text-muted-foreground ">
             created {daysAgo(job?.createdAt)}
           </div>
-          <div className="flex items-center gap-2 mt-4">
-            <Badge className={"text-blue-700 font-bold"} variant="ghost">
+          <div className="flex items-center gap-2 mt-4 ">
+            <Badge className={"text-blue-700 font-bold text-[8px]"} variant="ghost">
               {job?.position} Positions
             </Badge>
-            <Badge className={"text-[#F83002] font-bold"} variant="ghost">
+            <Badge className={"text-[#F83002] font-bold text-[8px]"} variant="ghost">
               {job?.jobType}
             </Badge>
-            <Badge className={"text-[#7209b7] font-bold"} variant="ghost">
+            <Badge className={"text-[#7209b7] font-bold text-[8px]"} variant="ghost">
               {job?.salary} LPA
             </Badge>
           </div>
@@ -137,7 +136,7 @@ const JobDetails = () => {
               handleApplyToJob(userInfo?._id,  job?._id);
             }}
             disabled={hasApllicantApplied}
-            className={`${
+            className={`md:text-sm text-[8px] ${
               applied ? "bg-green-600 cursor-not-allowed" : "bg-black"
             } disable`}
           >
@@ -145,7 +144,7 @@ const JobDetails = () => {
           </Button>
         </div>
       </div>
-      <div className="flex flex-col text-sm">
+      <div className="flex flex-col text-[10px] md:text-sm">
         <h1 className="font-bold underline">Job Details</h1>
         <div className="my-4">
           <h1 className="font-bold my-1">

@@ -3,18 +3,18 @@ const jobModel = require("../models/job.model") ;
 
 const handlePostJob = async (request,response) => {
     try {
-        const { title, description, requirements, salary, location, jobType, experience, position, companyId } = request.body;
+        const { jobTitle, jobDescription, requirements, salary, location, jobType, experience, position, companyId } = request.body;
         const userId = request.userId;
 
-        if (!title || !description || !requirements || !salary || !location || !jobType || !experience || !position || !companyId) {
+        if (!jobTitle || !jobDescription || !requirements || !salary || !location || !jobType || !experience || !position || !companyId) {
             return response.status(200).json({
                 message: "all fields are required",
-                success: false
+                status: false
             })
         };
         const newJob = await jobModel.create({
-            title,
-            description,
+            title:jobTitle,
+            description:jobDescription,
             requirements: requirements.split(","),
             salary:salary,
             location,
@@ -27,7 +27,7 @@ const handlePostJob = async (request,response) => {
         return response.status(201).json({
             message: "new job created succesfully.",
             newJob,
-            success: true
+            status: true
         });
     } catch (error) {
         console.log("something went wrong in creating a new job",error);
@@ -76,9 +76,6 @@ const handleGetJobById = async (request, response) => {
                 success: false
             })
         };
-        console.log('====================================');
-        console.log(job,"job");
-        console.log('====================================');
         return response.status(200).json({ job, success: true });
     } catch (error) {
         console.log(error);
@@ -94,13 +91,13 @@ const handleGetAllJobsByUser = async (request, response) => {
         });
         if (!jobs) {
             return response.status(404).json({
-                message: "no jobs found",
-                success: false
+                message: "no admin created jobs found",
+                status: false
             })
         };
         return response.status(200).json({
             jobs,
-            success: true
+            status: true
         })
     } catch (error) {
         console.log(error);

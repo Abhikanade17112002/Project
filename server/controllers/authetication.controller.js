@@ -8,10 +8,7 @@ const handleUserSignUp = async (request, response) => {
   try {
     const { firstName, lastName, email, phoneNumber, password, role } =
       request.body;
-    console.log(
-      { firstName, lastName, email, phoneNumber, password, role },
-      request.body
-    );
+
     const profilePicPath = request.file.path ;
     const profilePicUrl = await cloudinary.uploader.upload(profilePicPath);
   
@@ -97,7 +94,7 @@ const handleUserSignUp = async (request, response) => {
 const handleUserSignIn = async (request, response) => {
   try {
     const { email, password, role } = request.body;
-    console.log({ email, password, role });
+
 
     if (!email || !password || !role) {
       return response.status(200).json({
@@ -164,7 +161,7 @@ const handleUserSignIn = async (request, response) => {
 
 const handleUserSignOut = async (request, response) => {
   try {
-    console.log("hi");
+   
 
     return response
       .status(200)
@@ -190,11 +187,7 @@ const handleUserProfileUpdate = async (request, response) => {
   try {
     const { firstName, lastName, phoneNumber, bio, skills, email } =
       request.body;
-    console.log(
-      request.files,
-      request.files.profilePic[0].path,
-      request.files.resume[0].path
-    );
+
     const profilePath = request?.files?.profilePic[0]?.path;
     const resumePath = request?.files?.resume[0]?.path;
 

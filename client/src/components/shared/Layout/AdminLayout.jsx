@@ -1,19 +1,17 @@
-import React from 'react'
-import Navbar from '../Navbar/Navbar'
-import Footer from '../Footer/Footer'
-import { Outlet } from 'react-router-dom'
+import React from "react";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
+import { Outlet } from "react-router-dom";
 
-const AdminLayout = ({children}) => {
+const AdminLayout = ({ children }) => {
   return (
     <div>
-        <Navbar/>
-        <Outlet></Outlet>
-        {children}
-        <Footer />
-
-      
+      <Navbar />
+      <Outlet></Outlet>
+      {children}
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default AdminLayout
+export default AdminLayout;

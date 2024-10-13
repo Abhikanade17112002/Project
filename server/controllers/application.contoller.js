@@ -12,7 +12,7 @@ const handleApplyToJob = async (req, res) => {
                 status: false
             })
         };
-        // check if the user has already applied for the job
+        
         const existingApplication = await applicationModel.findOne({ job: jobId, applicant: userId });
 
         if (existingApplication) {
@@ -22,7 +22,7 @@ const handleApplyToJob = async (req, res) => {
             });
         }
 
-        // check if the jobs exists
+      
         const job = await jobModel.findById(jobId);
         if (!job) {
             return res.status(404).json({
@@ -62,12 +62,13 @@ const handleGetAppliedJobsByUser = async (req,res) => {
         if(!application){
             return res.status(200).json({
                 message:"applications not found",
-                success:false
+                status:false
             })
         };
         return res.status(200).json({
+            message:"applications fetch succesfully",
             application,
-            success:true
+            status:true
         })
     } catch (error) {
         console.log("something went wrong while fetching all user applied jobs",error);
@@ -77,6 +78,7 @@ const handleGetAppliedJobsByUser = async (req,res) => {
 const handleGetAllAppliedApplicants = async (req,res) => {
     try {
         const jobId = req.params.jobId;
+
         const job = await jobModel.findById(jobId).populate({
             path:'applications',
             options:{sort:{createdAt:-1}},
@@ -87,12 +89,12 @@ const handleGetAllAppliedApplicants = async (req,res) => {
         if(!job){
             return res.status(200).json({
                 message:'job not found',
-                success:false
+                status:false
             })
         };
         return res.status(200).json({
             job, 
-            succees:true
+            status:true
         });
     } catch (error) {
         console.log("something went wrong fetching all the application to a job ",error);
@@ -105,7 +107,7 @@ const handleUpdateApplicationStatus = async (req,res) => {
         if(!status){
             return res.status(200).json({
                 message:'status is required',
-                success:false
+                status:false
             })
         };
 
@@ -114,7 +116,7 @@ const handleUpdateApplicationStatus = async (req,res) => {
         if(!application){
             return res.status(200).json({
                 message:"application not found",
-                success:false
+                status:false
             })
         };
 
@@ -124,7 +126,7 @@ const handleUpdateApplicationStatus = async (req,res) => {
 
         return res.status(200).json({
             message:"status updated successfully.",
-            success:true
+            status:true
         });
 
     } catch (error) {

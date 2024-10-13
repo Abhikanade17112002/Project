@@ -3,8 +3,8 @@ const cloudinary = require("../utiils/cloudinary");
 const deleteServerSideFiles = require("../utiils/deleteServerSideFiles");
 const handleRegisterCompany = async (request, response) => {
   try {
-    const { name } = request.body;
-    if (!name) {
+    const { companyName } = request.body;
+    if (!companyName) {
       return response.status(200).json({
         message: "company name required !",
         status: false,
@@ -19,7 +19,7 @@ const handleRegisterCompany = async (request, response) => {
     }
 
     const existingCompany = await companyModel.findOne({
-      name: name,
+      companyName: companyName,
     });
 
     if (existingCompany) {
@@ -29,10 +29,10 @@ const handleRegisterCompany = async (request, response) => {
       });
     }
 
-    console.log(request.userId, "REQUEST.USERID");
+   
 
     const newRegistration = await companyModel.create({
-      name: name,
+      companyName: companyName,
       userId: request?.userId,
     });
 
@@ -48,17 +48,18 @@ const handleRegisterCompany = async (request, response) => {
 
 const handleGetAllUserCreatedCompany = async (req, res) => {
   try {
-    const userId = req.userId; // logged in user id
+    const userId = req.userId; 
     const companies = await companyModel.find({ userId });
     if (!companies) {
       return res.status(200).json({
         message: "no user created companies found",
-        success: false,
+        status: false,
       });
     }
     return res.status(200).json({
+      message: "fetched all user companies succesfully",
       companies,
-      success: true,
+      status: true,
     });
   } catch (error) {
     console.log("something went wrong in get user companies", error);
@@ -90,26 +91,12 @@ const handleUpdateCompanyDetails = async (request, response) => {
       companyEmail,
       companyContact,
       companyAddress,
-
-      compantWebsite,
+      companyWebsite,
       industry,
       description,
     } = request.body;
     const companyLogoPath = request?.file?.path;
-    console.log("====================================");
-    console.log(
-      {
-        companyName,
-        companyEmail,
-        companyContact,
-        companyAddress,
-        compantWebsite,
-        industry,
-        description,
-      },
-      request.file
-    );
-    console.log("====================================");
+
 
     let companyLogoURL = await cloudinary.uploader.upload(companyLogoPath);
 
@@ -126,8 +113,8 @@ const handleUpdateCompanyDetails = async (request, response) => {
     if (companyAddress) {
       updatedInfo.companyAddress = companyAddress;
     }
-    if (compantWebsite) {
-      updatedInfo.compantWebsite = compantWebsite;
+    if (companyWebsite) {
+      updatedInfo.companyWebsite = companyWebsite;
     }
     if (industry) {
       updatedInfo.industry = industry;
@@ -151,11 +138,13 @@ const handleUpdateCompanyDetails = async (request, response) => {
         status: false,
       });
     }
+    deleteServerSideFiles(companyLogoPath);
     return response.status(200).json({
       message: "company information updated.",
       status: true,
       company:updatedCompanyInfo
     });
+    
   } catch (error) {
     console.log(error);
   }

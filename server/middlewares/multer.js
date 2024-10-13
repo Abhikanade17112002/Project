@@ -6,12 +6,12 @@ const storage = multer.diskStorage({
         
         
         if (file.fieldname === 'profilePic') {
-            cb(null, './uploads/userProfile');  // Directory for profile pictures
+            cb(null, './uploads/userProfile'); 
         } else if (file.fieldname === 'resume') {
-            cb(null, './uploads/userresume');   // Directory for resumes
+            cb(null, './uploads/userresume'); 
         } 
         else if (file.fieldname === 'companyLogo') {
-            cb(null, './uploads/companyLogo');   // Directory for companyLogo
+            cb(null, './uploads/companyLogo');   
         } 
         
         else {

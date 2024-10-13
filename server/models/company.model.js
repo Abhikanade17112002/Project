@@ -29,7 +29,7 @@ const companySchema = new mongoose.Schema({
         type:String 
     },
     companyLogo:{
-        type:String // URL to company logo
+        type:String 
     },
     userId:{
         type:mongoose.Schema.Types.ObjectId,
@@ -38,4 +38,4 @@ const companySchema = new mongoose.Schema({
     }
 },{timestamps:true})
 const companyModel = mongoose.model("company", companySchema);
-module.exports = companyModel;  //export the model to use in other files`
+module.exports = companyModel;  

@@ -10,12 +10,18 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@radix-ui/react-label";
 
-const CustomDropDown = ({ dropDownOptions, label, placeholder, name, control, errors }) => {
+const CustomDropDown = ({
+  dropDownOptions,
+  label,
+  placeholder,
+  name,
+  control,
+  errors,
+}) => {
   return (
     <div className="px-4 my-2">
       <Label className="text-sm font-semibold">{label}</Label>
 
-      {/* Controller wraps the Select component */}
       <Controller
         name={name}
         control={control}
@@ -38,7 +44,6 @@ const CustomDropDown = ({ dropDownOptions, label, placeholder, name, control, er
         )}
       />
 
-      {/* Error handling */}
       {errors[name] && (
         <div className="error">
           <span className="error-text text-[10px] text-red-700 font-semibold">

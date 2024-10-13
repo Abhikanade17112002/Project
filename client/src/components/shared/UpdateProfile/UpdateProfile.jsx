@@ -5,7 +5,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
 import CustomFileInput from "../CustomFileInput/CustomFileInput";
@@ -39,7 +38,6 @@ const UpdateProfile = ({ openUpdateProfile, setOpenUpdateProfile }) => {
   });
 
   const handleUpdateProfile = async (data) => {
-    console.log(`hi`);
     const formdata = new FormData();
     Object.keys(data).forEach((key) => {
       if (key === "resume" || key === "profilePic") {
@@ -49,13 +47,9 @@ const UpdateProfile = ({ openUpdateProfile, setOpenUpdateProfile }) => {
       }
     });
 
-    for (const pair of formdata.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
     setSubmitting((prevState) => !prevState);
     try {
       const response = await dispatch(handleUserUpdateProfileAction(formdata));
-      console.log(response);
       if (response.payload.status) {
         toast.success(response.payload.message);
         setSubmitting((prevState) => !prevState);

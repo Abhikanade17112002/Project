@@ -1,24 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getUserInfo } from "@/store/userSlice/userSlice";
 import axios from "axios";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const RegisterCompany = () => {
   const navigate = useNavigate();
   const [companyName, setCompanyName] = useState();
-  const dispatch = useDispatch();
 
   const handleRegisterCompany = async () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/company/register",
         {
-          name: companyName,
+          companyName: companyName,
         },
         {
           withCredentials: true,
@@ -26,27 +24,19 @@ const RegisterCompany = () => {
             "Content-Type": "application/json",
           },
         }
-    );
-    console.log('====================================');
-    console.log(response,"RESPONSE FROM REGIATRATION");
-    console.log('====================================');
+      );
 
-    if( response.data.status )
-    {
-         toast.success(response.data.message) ;
-         const newCompanyId = response?.data?.company?._id ;
-         navigate(`/admin/company/${newCompanyId}`) ;
-    }else
-    {
+      console.log(response, "RESPONSE FROM REGIATRATION");
+
+      if (response.data.status) {
+        toast.success(response.data.message);
+        const newCompanyId = response?.data?.company?._id;
+        navigate(`/admin/company/${newCompanyId}`);
+      } else {
         toast.error(response.data.message);
-    }
-
-
-       
+      }
     } catch (error) {
-      console.log("====================================");
       console.log("Something Went Wrong While Register Company", error);
-      console.log("====================================");
     }
   };
   return (

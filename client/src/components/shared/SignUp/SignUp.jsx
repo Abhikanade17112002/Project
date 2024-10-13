@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import CustomInput from "../CustomInput/CustomInput";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import CustomDropDown from "../CustomDropDown/CustomDropDown";
 import CustomFileInput from "../CustomFileInput/CustomFileInput";
 import { useDispatch } from "react-redux";
 import { handleUserSignUpAction } from "@/store/userSlice/userSlice";
-import { toast } from "sonner"
-
+import { toast } from "sonner";
 
 const SignUp = () => {
   const dispatch = useDispatch();
@@ -32,7 +31,6 @@ const SignUp = () => {
     },
     mode: "all",
   });
-  console.log(errors);
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -46,18 +44,14 @@ const SignUp = () => {
       }
     });
 
-    for (const pair of formdata.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
     setSubmitting(true);
     try {
       const response = await dispatch(handleUserSignUpAction(formdata));
-      console.log(response);
+
       if (response.payload.status) {
         toast.success(response.payload.message);
         setSubmitting(false);
         navigate("/");
-
       } else {
         toast.error(response.payload.message);
         setSubmitting(false);
@@ -150,7 +144,6 @@ const SignUp = () => {
               value: true,
               message: "Phone Number is required",
             },
-            
           })}
         />
         <CustomDropDown

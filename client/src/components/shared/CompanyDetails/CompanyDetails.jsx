@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomInput from "../CustomInput/CustomInput";
 import CustomFileInput from "../CustomFileInput/CustomFileInput";
 import CustomDropDown from "../CustomDropDown/CustomDropDown";
@@ -12,7 +12,7 @@ import { toast } from "sonner";
 const CompanyDetails = () => {
   const { companyId } = useParams();
   const [submitting, setSubmitting] = useState(false);
-  const navigate = useNavigate() ;
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,7 +26,7 @@ const CompanyDetails = () => {
       companyContact: "",
       companyAddress: "",
       companyLogo: "",
-      compantWebsite: "",
+      companyWebsite: "",
       industry: "",
       description: "",
     },
@@ -42,30 +42,27 @@ const CompanyDetails = () => {
       }
     });
 
-    for (const pair of formdata.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
     try {
       setSubmitting(true);
-      
-      const response = await axios.post(`http://localhost:3000/api/company/update/${companyId}`,formdata,{
+
+      const response = await axios.post(
+        `http://localhost:3000/api/company/update/${companyId}`,
+        formdata,
+        {
           headers: {
             "Content-Type": "multipart/form-data",
           },
           withCredentials: true,
         }
       );
-      console.log("====================================");
+
       console.log(response, "RESPONSE");
-      console.log("====================================");
-      if( response.data.status)
-      {
-         toast.success(response?.data?.message);
-         navigate("/admin/companies");
-      }
-      else
-      {
-        toast.error(response?.data?.message) ;
+
+      if (response.data.status) {
+        toast.success(response?.data?.message);
+        navigate("/admin/companies");
+      } else {
+        toast.error(response?.data?.message);
       }
     } catch (error) {
       console.error("Something went wrong while updating company info", error);
@@ -76,8 +73,11 @@ const CompanyDetails = () => {
   return submitting ? (
     <Loader></Loader>
   ) : (
-    <div className="h-[100vh] py-4 overflow-y-auto my-5">
-      <h1 className="text-4xl font-bold text-center"> Fill Company Details </h1>
+    <div className="h-[100vh] py-4 overflow-y-auto my-5 ">
+      <h1 className="md:text-4xl  font-bold text-center">
+        {" "}
+        Fill Company Details{" "}
+      </h1>
       <div className="formContainer max-w-3xl mx-auto border py-4 px-6  rounded-lg my-4">
         <form
           action=""
