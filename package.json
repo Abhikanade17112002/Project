@@ -4,8 +4,9 @@
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon server.js",
+    "start": "odemon server/server.js",
+    "build":"npm install && npm install --prefix client && npm run build --prefix client",
+    "dev": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
