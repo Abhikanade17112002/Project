@@ -15,12 +15,12 @@ const FilterCard = ({ filtersarray, query, setQuery }) => {
       <hr className="mt-3" />
       <RadioGroup value={selectedValue} onValueChange={changeHandler}>
         {filtersarray.map((data, index) => (
-          <div>
+          <div key={index}>
             <h1 className="font-bold text-sm">{data.label}</h1>
             {data.value.map((item, idx) => {
               const itemId = `id${index}-${idx}`;
               return (
-                <div className="flex items-center space-x-2 my-2">
+                <div key={idx} className="flex items-center space-x-2 my-2">
                   <RadioGroupItem value={item} id={itemId} />
                   <Label className="text-sm" htmlFor={itemId}>
                     {item}

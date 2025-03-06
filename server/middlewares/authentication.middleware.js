@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken") ;
 
-
 const Authenticated = async ( request , response , next ) =>{
     try {
        
         
         const incomingToken = request.cookies.jwttoken ;
+       
        
         
         if(!incomingToken )
@@ -30,7 +30,7 @@ const Authenticated = async ( request , response , next ) =>{
         request.userId = decodedToken.userId ;
         next() ;
     } catch (error) {
-        console.log("Auth Middle wAre  ",error);
+        console.log("Auth Middleware  ",error);
         
     }
     

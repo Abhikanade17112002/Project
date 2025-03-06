@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 const BrowseJobs = () => {
   let { query } = useParams();
   const allJobs = useSelector(getAllJobs);
+  console.log(allJobs,query);
+  
   if (query == ":query") {
     query = "";
   }

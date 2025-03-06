@@ -4,6 +4,73 @@ const jwt = require("jsonwebtoken");
 const cloudinary = require("../utiils/cloudinary");
 const deleteServerSideFiles = require("../utiils/deleteServerSideFiles");
 
+
+const handleUserAuthentication = async ( request , response ) =>{
+  try {
+    
+    
+    
+    const userId = request.userId ;
+   
+    const user = await UserModel.findOne({ _id : userId });
+    if (!user) {
+      return response.status(200).json({
+        message: "incorrect email or password (user not found)",
+        status: false,
+      });
+    }
+
+    // return response.status(200).json({
+    //   message: "correct email or password (user  found)",
+    //   status: true,
+    // });
+
+    // const validPassword = await bcryptjs.compare(password, user.password);
+    // if (!validPassword) {
+    //   return response.status(200).json({
+    //     message: "incorrect email or password (user not found)",
+    //     status: false,
+    //   });
+    // }
+
+
+    
+
+    const tokenData = {
+      userId: user._id,
+      role: user.role,
+      email: user.email,
+    };
+
+    const generatedToken = jwt.sign(tokenData, process.env.JTWSECRETE, {
+      expiresIn: "1d",
+    });
+
+    return response
+      .status(200)
+      .cookie("jwttoken", generatedToken, {
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: "strict",
+        secure: true,
+        path: "/",
+      })
+      .json({
+        message: "login successfull",
+        status: true,
+        token: generatedToken,
+        user,
+      });
+
+
+  } catch (error) {
+    console.log(error);
+    response.status(200).json({
+      message: "something went wrong in User Requthentication ",
+      status: false,
+    });
+  }
+}
 const handleUserSignUp = async (request, response) => {
   try {
     const { firstName, lastName, email, phoneNumber, password, role } =
@@ -259,4 +326,5 @@ module.exports = {
   handleUserSignIn,
   handleUserSignOut,
   handleUserProfileUpdate,
+  handleUserAuthentication
 };

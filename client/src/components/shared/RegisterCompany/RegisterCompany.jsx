@@ -13,7 +13,7 @@ const RegisterCompany = () => {
   const handleRegisterCompany = async () => {
     try {
       const response = await axios.post(
-        "https://careercruise-4kbt.onrender.com/api/company/register",
+        "http://localhost:3000/api/company/register",
         {
           companyName: companyName,
         },

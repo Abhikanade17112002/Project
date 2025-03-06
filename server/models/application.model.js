@@ -20,3 +20,5 @@ const applicationSchema = new mongoose.Schema({
 },{timestamps:true});
 const applicationModel  = mongoose.model("application", applicationSchema);
 module.exports = applicationModel;  //export the model to use it in other files
+
+

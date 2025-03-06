@@ -24,7 +24,7 @@ const Navbar = () => {
         <Link to={"/"}>
         <h1 className="md:text-2xl font-bold text-[12px] ">
           {" "}
-          Job <span className="text-[#F83002]">Portal</span>
+          Intern <span className="text-[#F83002]">Pilot</span>
         </h1>
         </Link>
         

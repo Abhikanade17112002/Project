@@ -12,7 +12,7 @@ export const getAdminCreatedCompaniesAction = createAsyncThunk(
   "/api/company",
   async () => {
     try {
-      const response = await axios.get("https://careercruise-4kbt.onrender.com/api/company", {
+      const response = await axios.get("http://localhost:3000/api/company", {
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",

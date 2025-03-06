@@ -99,6 +99,7 @@ const Carousel = React.forwardRef((
         canScrollNext,
       }}>
       <div
+      key={Date.now()}
         ref={ref}
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}

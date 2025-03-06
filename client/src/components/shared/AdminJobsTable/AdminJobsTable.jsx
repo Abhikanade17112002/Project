@@ -137,7 +137,7 @@ const AdminJobsTable = ({ searchParam }) => {
 
   const handleGetAdminCreatedJobs = async () => {
     try {
-      const response = await axios.get("https://careercruise-4kbt.onrender.com/api/job/admin", {
+      const response = await axios.get("http://localhost:3000/api/job/admin", {
         headers: {
           "Content-Type": "application/json",
         },

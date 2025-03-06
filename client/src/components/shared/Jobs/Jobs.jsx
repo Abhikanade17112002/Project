@@ -49,7 +49,7 @@ const Jobs = () => {
                 job.jobType.toLowerCase().includes(query.toLowerCase())
             )
             .map((job, index) => (
-              <div className="">
+              <div className="" key={index}>
                 <JobsCard key={index} job={job} />
               </div>
             ))

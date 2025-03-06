@@ -6,12 +6,32 @@ const initialState = {
   isAuthenticated: false,
 };
 
+export const handleUserReAuthentication = createAsyncThunk(
+  "/auth/reauthentication",
+  async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/auth/authenticate",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return error.message;
+    }
+  }
+);
 export const handleUserSignUpAction = createAsyncThunk(
   "/auth/signup",
   async (FormData) => {
     try {
       const response = await axios.post(
-        "https://careercruise-4kbt.onrender.com/api/auth/signup",
+        "http://localhost:3000/api/auth/signup",
         FormData,
         {
           headers: {
@@ -32,7 +52,7 @@ export const handleUserSignInAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.post(
-        "https://careercruise-4kbt.onrender.com/api/auth/signin",
+        "http://localhost:3000/api/auth/signin",
         FormData,
         {
           withCredentials: true,
@@ -50,10 +70,10 @@ export const handleUserSignInAction = createAsyncThunk(
 );
 export const handleUserSignOutAction = createAsyncThunk(
   "/auth/signout",
-  async (FormData) => {
+  async () => {
     try {
       const response = await axios.get(
-        "https://careercruise-4kbt.onrender.com/api/auth/signout",
+        "http://localhost:3000/api/auth/signout",
         {
           withCredentials: true,
           headers: {
@@ -74,7 +94,7 @@ export const handleUserUpdateProfileAction = createAsyncThunk(
   async (FormData) => {
     try {
       const response = await axios.post(
-        "https://careercruise-4kbt.onrender.com/api/auth/profile/update",
+        "http://localhost:3000/api/auth/profile/update",
         FormData,
         {
           withCredentials: true,
@@ -142,6 +162,18 @@ const userSlice = createSlice({
       })
       .addCase(handleUserUpdateProfileAction.rejected, (state, action) => {
         state.loading = false;
+      })
+      .addCase(handleUserReAuthentication.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(handleUserReAuthentication.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.status ? action.payload.user : null;
+        state.isAuthenticated = action.payload.status ? true : false;
+      })
+      .addCase(handleUserReAuthentication.rejected, (state, action) => {
+        state.loading = false;
+        state.isAuthenticated = false;
       });
   },
 });

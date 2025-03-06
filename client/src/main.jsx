@@ -7,15 +7,18 @@ import store from "./store/store.js";
 import { Toaster } from "@/components/ui/sonner";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import SocketContextProvider from "./context/socketConext.jsx";
 
-const persistor = persistStore(store);
+// const persistor = persistStore(store);
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      {/* <PersistGate loading={null} persistor={persistor}> */}
+        <SocketContextProvider>
         <App />
-      </PersistGate>
+        </SocketContextProvider>
+      {/* </PersistGate> */}
       <Toaster />
     </Provider>
-  </StrictMode>
+
 );

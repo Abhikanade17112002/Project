@@ -8,6 +8,8 @@ const Auth = ({ children }) => {
   const userInfo = useSelector(getUserInfo);
   const pathName = location.pathname;
 
+  
+
   if (
     !userInfo &&
     pathName !== "/" &&

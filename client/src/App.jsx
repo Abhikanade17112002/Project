@@ -4,7 +4,7 @@ import Layout from "./components/shared/Layout/Layout";
 import SignUp from "./components/shared/SignUp/SignUp";
 import SignIn from "./components/shared/SignIn/SignIn";
 import AuthLayout from "./components/shared/Layout/AuthLayout";
-import { getUserInfo } from "./store/userSlice/userSlice";
+import { getUserInfo, handleUserReAuthentication } from "./store/userSlice/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import HeroSection from "./components/shared/HeroSection/HeroSection";
 import CategoryCarousel from "./components/shared/CategoryCarousel/CategoryCarousel";
@@ -25,17 +25,18 @@ import CompanyDetails from "./components/shared/CompanyDetails/CompanyDetails";
 import AdminJobs from "./components/shared/AdminJobs/AdminJobs";
 import PostJob from "./components/shared/PostJob/PostJob";
 import Applicants from "./components/shared/Applicants/Applicants";
+import Recomandations from "./components/shared/Recomandations/Recomandations";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <Auth>
-        {" "}
+        
         <Admin>
           <Layout />
         </Admin>
-      </Auth>
+       </Auth>
     ),
     children: [
       {
@@ -58,7 +59,7 @@ const router = createBrowserRouter([
     path: "/auth",
     element: (
       <Auth>
-        <AuthLayout />{" "}
+        <AuthLayout />
       </Auth>
     ),
     children: [
@@ -155,14 +156,38 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path:"/recommand",
+    element: (
+      <Auth>
+        <Admin>
+          <User>
+            <Layout></Layout>
+          </User>
+        </Admin>
+      </Auth>
+    ),
+    children: [
+      {
+        path: "",
+        element: <Recomandations/>,
+      }
+    ]
+  }
 ]);
 function App() {
   const dispatch = useDispatch();
   const userInfo = useSelector(getUserInfo);
-
+  console.log(userInfo);
+  
   useEffect(() => {
+   
     dispatch(getAllJobsAction());
   }, [dispatch, userInfo]);
+  useEffect(() => {
+    dispatch(handleUserReAuthentication());
+    
+  }, []);
 
   return (
     <div className="w-full">

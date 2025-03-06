@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+
+
+
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,30 +15,62 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { getUserInfo } from "@/store/userSlice/userSlice";
 import { toast } from "sonner";
+import { socketcontext } from "@/context/socketConext";
 
 const UserAppliedTable = () => {
   const [allAppliedJobs, setAllAppliedJobs] = useState([]);
   const userId = useSelector(getUserInfo)?._id;
+  const { socket } = useContext(socketcontext);
+
 
   const handleFetchAllUserApplications = async () => {
     try {
-      const response = await axios.get(
-        "https://careercruise-4kbt.onrender.com/api/application/get",
+      const { data } = await axios.get(
+        "http://localhost:3000/api/application/get",
         {
           withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
         }
       );
 
-      if (response.data.status) {
-        setAllAppliedJobs(response.data.application);
+      if (data.status) {
+        setAllAppliedJobs((prevJobs) => 
+          JSON.stringify(prevJobs) !== JSON.stringify(data.application)
+            ? data.application
+            : prevJobs
+        );
       } else {
-        toast.error(response.data.message);
+        toast.error(data.message);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error fetching user applications:", error);
+      toast.error("Failed to fetch applied jobs.");
+    }
   };
+
+  useEffect(() => {
+    const handleUpdate = (data)=>{
+  
+
+
+      setAllAppliedJobs((prevState)=>prevState.map((application)=>{
+        if( application._id == data.applicationId){
+           const updated = {  ...application , "status":data.status};
+           return updated ;
+        }
+        else{
+          return application ;
+        }
+      }))
+      
+
+    }
+    if (socket) {
+      socket.on("updated-application-status", handleUpdate);
+      return () => socket.off("updated-application-status", handleUpdate);
+
+    }
+  }, [socket]);
 
   useEffect(() => {
     handleFetchAllUserApplications();
@@ -54,26 +89,29 @@ const UserAppliedTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {allAppliedJobs?.length <= 0 ? (
-            <span>You haven't applied any job yet.</span>
+          {allAppliedJobs?.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={4} className="text-center">
+                You haven't applied to any job yet.
+              </TableCell>
+            </TableRow>
           ) : (
-            allAppliedJobs?.map((appliedJob) => (
-              <TableRow key={appliedJob?._id}>
+            allAppliedJobs.map((appliedJob) => (
+              <TableRow key={appliedJob._id}>
                 <TableCell>{appliedJob?.createdAt?.split("T")[0]}</TableCell>
                 <TableCell>{appliedJob.job?.title}</TableCell>
                 <TableCell>{appliedJob.job?.company?.companyName}</TableCell>
                 <TableCell className="flex justify-center items-center">
-                  {" "}
                   <div
-                    className={`px-2 py-1  ${
+                    className={`px-2 py-1 font-bold rounded-xl text-white ${
                       appliedJob.status === "accepted"
-                        ? "bg-green-500 text-white font-bold rounded-xl"
+                        ? "bg-green-500"
                         : appliedJob.status === "pending"
-                        ? "bg-gray-500 text-white font-bold rounded-xl"
-                        : "bg-red-400 text-white font-bold rounded-xl"
-                    }  `}
+                        ? "bg-gray-500"
+                        : "bg-red-400"
+                    }`}
                   >
-                    {appliedJob?.status}
+                    {appliedJob.status}
                   </div>
                 </TableCell>
               </TableRow>

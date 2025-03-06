@@ -46,7 +46,7 @@ const CompanyDetails = () => {
       setSubmitting(true);
 
       const response = await axios.post(
-        `https://careercruise-4kbt.onrender.com/api/company/update/${companyId}`,
+        `http://localhost:3000/api/company/update/${companyId}`,
         formdata,
         {
           headers: {

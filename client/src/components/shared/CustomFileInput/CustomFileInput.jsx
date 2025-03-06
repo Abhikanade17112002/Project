@@ -33,7 +33,7 @@ const CustomFileInput = ({ label, register, name, errors }) => {
             </h4>
             <div class="flex items-center justify-center">
               <label>
-                <input type="file" hidden {...register} />
+                <input type="file" hidden  {...register} />
                 <div class="flex w-28 h-9 px-2 flex-col bg-indigo-600 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
                   Choose File
                 </div>

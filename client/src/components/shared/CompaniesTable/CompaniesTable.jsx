@@ -58,8 +58,8 @@ const CompaniesTable = ({ searchParam }) => {
                 .toLowerCase()
                 .includes(searchParam.toLowerCase())
             )
-            .map((company) => (
-              <tr>
+            .map((company,index) => (
+              <tr key={index}>
                 <TableCell className="text-center">
                   <Avatar>
                     <AvatarImage src={company?.companyLogo} />
